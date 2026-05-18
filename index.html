@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REAL ESTATE MANAGEMENT — REVIEWER</title>
+<title>Real Estate Management — Reviewer</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -73,15 +73,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 .tab{padding:12px 13px;font-size:12px;font-weight:500;color:var(--text-3);border:none;background:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;}
 .tab:hover{color:var(--text);}
 .tab.active{color:var(--brown);border-bottom-color:var(--brown);}
-  /* SETTINGS ICON */
-#settings-tab{
-  font-size:17px;
-  color:inherit;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:44px;
-}
 .app-body{padding:18px 18px;max-width:960px;width:100%;margin:0 auto;}
 .view{display:none;}
 .view.on{display:block;}
@@ -316,6 +307,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 .sync-dot.err-dot{background:var(--red);}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 /* TOAST */
+/* Admin toggle switch */
+.admin-toggle-wrap{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;}
+.admin-toggle-track{width:44px;height:24px;border-radius:100px;background:var(--border-md);transition:background .2s;position:relative;flex-shrink:0;}
+.admin-toggle-track.on{background:var(--brown-md);}
+.admin-toggle-thumb{width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.admin-toggle-track.on .admin-toggle-thumb{left:23px;}
+.admin-toggle-lbl{font-size:13px;font-weight:500;color:var(--text-2);}
+.admin-toggle-lbl.on{color:var(--brown);}
 .toast{position:fixed;bottom:18px;right:18px;background:var(--brown-md);color:#fff;padding:8px 16px;border-radius:100px;font-size:12px;font-weight:500;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;}
 .toast.show{opacity:1;}
 /* ── EXAM LAYOUT — iPad/Laptop optimized ── */
@@ -355,7 +354,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 
 <!-- LOADER -->
 <div id="s-loader" class="screen on">
-  <div class="ld-logo">REAL ESTATE MANAGEMENT<br><span style="font-size:13px;font-weight:400;color:var(--brown-lt);">Study Tracker · Laws & Terms · Mock Exam</span></div>
+  <div class="ld-logo">Real Estate Management<br><span style="font-size:13px;font-weight:400;color:var(--brown-lt);">Study Tracker · Laws & Terms · Mock Exam</span></div>
   <div class="spinner"></div>
 </div>
 
@@ -386,7 +385,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 <div id="s-auth" class="screen">
   <div class="auth-box">
     <div class="auth-brand">REAL ESTATE MANAGEMENT</div>
-    <div class="auth-tag">REVIEWER</div>
+    <div class="auth-tag">Reviewer</div>
     <div class="auth-title" id="auth-title">Sign In</div>
     <div class="auth-desc" id="auth-desc">Welcome back. Your progress syncs across all your devices.</div>
     <div class="field" id="f-name" style="display:none;"><label>Full Name</label><input type="text" id="inp-name" placeholder="Juan dela Cruz" autocomplete="name"></div>
@@ -413,7 +412,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
     <button class="tab active" data-v="tracker" onclick="switchTab(this)">Study Tracker</button>
     <button class="tab" data-v="study" onclick="switchTab(this)">Laws &amp; Terms</button>
     <button class="tab" data-v="exam" onclick="switchTab(this)">Mock Exam</button>
-    <button class="tab" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;">⚙</button>
+    <button class="tab" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;">Settings</button>
   </nav>
   <div class="app-body">
 
@@ -550,11 +549,11 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
             <div class="set-card">
               <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;">Number of Questions</div>
               <div class="n-opts-wide">
-                <div class="n-opt sel" data-n="100" onclick="selN(this,100)"><div class="nt">100 QUESTIONS</div><div class="ns">FULL EXAM</div></div>
-                <div class="n-opt" data-n="50" onclick="selN(this,50)"><div class="nt">50 QUESTIONS</div><div class="ns">HALF SET</div></div>
-                <div class="n-opt" data-n="20" onclick="selN(this,20)"><div class="nt">20 QUESTIONS</div><div class="ns">QUICK QUIZ</div></div>
-                <div class="n-opt" data-n="200" onclick="selN(this,200)"><div class="nt">200 QUESTIONS</div><div class="ns">EXTENDED REVIEW</div></div>
-                <div class="n-opt" data-n="0" onclick="selN(this,0)"><div class="nt">All QUESTIONS</div><div class="ns">ENTIRE BANK</div></div>
+                <div class="n-opt sel" data-n="100" onclick="selN(this,100)"><div class="nt">100 QUESTIONS</div><div class="ns">Full Set</div></div>
+                <div class="n-opt" data-n="50" onclick="selN(this,50)"><div class="nt">50 QUESTIONS</div><div class="ns">Half Set</div></div>
+                <div class="n-opt" data-n="20" onclick="selN(this,20)"><div class="nt">20 QUESTIONS</div><div class="ns">Quick Recap</div></div>
+                <div class="n-opt" data-n="200" onclick="selN(this,200)"><div class="nt">200 QUESTIONS</div><div class="ns">Extended Review</div></div>
+                <div class="n-opt" data-n="0" onclick="selN(this,0)"><div class="nt">ALL QUESTIONS</div><div class="ns">Entire Bank</div></div>
               </div>
               <div class="form-row" style="margin-top:14px;margin-bottom:14px;">
                 <label>Filter by Category (optional)</label>
@@ -657,17 +656,31 @@ Row 1 in each tab = headers (skipped automatically)
         <div class="howto"><div class="howto-n">4</div><div>Paste the Sheet ID above → click <strong>Save &amp; Fetch All</strong>.</div></div>
       </div>
       <div class="set-card">
-        <h3>Admin Access</h3>
-        <p>Admin mode lets you add resource links to tracker topics, and add/delete custom phases and lessons. Password: known to admin only.</p>
-        <div class="btn-row">
-          <button class="btn-sm" onclick="showPinBox()">Enter Admin Password</button>
-          <button class="btn-sm sec" onclick="exitAdmin()">Exit Admin Mode</button>
-          <button class="btn-sm sec" style="color:var(--err);border-color:var(--err);" onclick="resetConfig()">Reset Firebase Config</button>
+        <h3>Admin Mode</h3>
+        <p>Toggle admin mode to add resource links, manage phases, and add custom lessons. Turn it off when studying so the interface stays clean.</p>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+          <div class="admin-toggle-wrap" id="admin-toggle-wrap" onclick="toggleAdminMode()">
+            <div class="admin-toggle-track" id="admin-toggle-track">
+              <div class="admin-toggle-thumb"></div>
+            </div>
+            <span class="admin-toggle-lbl" id="admin-toggle-lbl">Admin Off</span>
+          </div>
         </div>
+        <div style="font-size:11px;color:var(--text-3);line-height:1.6;">When <strong>on</strong>: you can add links, phases, and lessons in the Study Tracker.<br>When <strong>off</strong>: clean study view — same as what students see.</div>
+      </div>
+      <div class="set-card">
+        <h3>Firebase Configuration</h3>
+        <p>Your Firebase project keys are hard-coded into the app. Only reset this if you switch to a different Firebase project.</p>
+        <div class="code-b" style="font-size:10.5px;">
+Project: re-licensure-tracker<br>
+Auth: Email/Password enabled<br>
+Database: Firestore (test mode)
+        </div>
+        <button class="btn-sm sec" style="color:var(--err);border-color:var(--err);" onclick="resetConfig()">Reset &amp; Clear Config</button>
       </div>
       <div class="set-card" style="text-align:center;">
-        <div style="font-size:11px;font-weight:600;color:var(--brown-md);">Engr. Mary Marjorie D. Dumlao, RCE, RMP, SO-II</div>
-        <div style="font-size:10px;color:var(--text-3);margin-top:3px;">Real Estate Licensure Exam Reviewer · 2026–2027</div>
+        <div style="font-size:10px;font-weight:400;color:var(--brown-md);">Engr. Mary Marjorie D. Dumlao, RCE, RMP, SO-II</div>
+        <div style="font-size:8px;color:var(--text-3);margin-top:3px;">Real Estate Licensure Exam Reviewer · 2026–2027</div>
       </div>
     </div>
 
@@ -705,9 +718,13 @@ const SEED=[
 {id:"6.1",table:"both",phase:"Phase 6 — Housing, Land Use & Planning",law:"RA 7279 — UDHA",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"20% balanced housing requirement; socialized housing programs; eviction and demolition rules"},
 {id:"6.2",table:"both",phase:"Phase 6 — Housing, Land Use & Planning",law:"CLUP / Zoning",tags:["both"],group:"REB: Professional Practice · REA: Land Mgmt",guide:"Comprehensive Land Use Plan; urban and rural land use classifications; zoning; LGU authority under RA 7160"},
 {id:"7.1",table:"both",phase:"Phase 7 — Taxation",law:"RA 7160 — Local Government Code",tags:["both","hy"],group:"REB: RE Laws & Taxation · REA: Govt Assessment",guide:"RPT: AV = Market Value x Assessment Level; RPT = AV x Tax Rate; assessment levels; zonal vs. market vs. assessed value"},
-{id:"7.2",table:"both",phase:"Phase 7 — Taxation",law:"NIRC — National Internal Revenue Code",tags:["both","hy"],group:"REB: RE Laws & Taxation · REA: Govt Assessment",guide:"CGT 6% of GSP or zonal value whichever is higher; DST; VAT on real estate; dealers vs. non-dealers"},
+{id:"7.2",table:"both",phase:"Phase 7 — Taxation",law:"NIRC (RA 8424) — National Internal Revenue Code",tags:["both","hy"],group:"REB: RE Laws & Taxation · REA: Govt Assessment",guide:"CGT 6% of GSP or zonal value whichever is higher; DST; VAT on real estate; dealers vs. non-dealers"},
 {id:"7.3",table:"both",phase:"Phase 7 — Taxation",law:"RA 10963 — TRAIN Law",tags:["both"],group:"REB: RE Laws & Taxation · REA: Govt Assessment",guide:"Estate tax updated to 6% flat rate; donor's tax updates; VAT threshold changes"},
 {id:"8.1",table:"both",phase:"Phase 8 — Real Estate Finance & Economics",law:"Real Estate Finance & Economics",tags:["both","hy"],group:"REB: Professional Practice · REA: Fundamentals",guide:"Time value of money; interest computation; mortgage types; real estate market cycles; supply and demand as value drivers"},
+{id:"9.1",table:"both",phase:"Phase 9 — Land Management System",law:"Land Management System & DENR",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"DENR land classification system; cadastral survey process; LRA and Registry of Deeds functions; land records management; tax mapping and assessment rolls; LGU land records roles"},
+{id:"9.2",table:"both",phase:"Phase 9 — Land Management System",law:"DAO 2007-29 — Manual of Land Survey Procedures",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"DENR administrative order governing land surveys; cadastral, isolated, and subdivision surveys; survey plan requirements; LRA approval process; relevance to lot area verification and title preparation"},
+{id:"9.5",table:"rea",phase:"Phase 9 — Land Management System",law:"RA 10926 — Philippine Valuation Standards Act",tags:["rea","hy"],group:"REA: Land Mgmt & Real Property Laws",guide:"Mandates adoption of Philippine Valuation Standards (PVS) for all government and private appraisals; establishes PVS as the national standard; requires compliance by all licensed appraisers; basis for PVS 3rd Edition 2025"},
+{id:"10.1",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Fundamentals of Real Estate Principles & Practices",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Economic principles: anticipation, substitution, conformity, contribution, progression, regression, supply and demand, competition, balance, change; for REB: pricing and transaction decisions; for REA: approach selection and value conclusion"},
 {id:"R12.1",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"PVS 3rd Ed. 2025",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"PVS framework; bases of value; scope of work; appraiser independence; contingent fee prohibition; certification statement"},
 {id:"R12.2",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"International Valuation Standards (IVS)",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"IVS general standards; how IVS is adopted in PVS 3rd Edition; IVS definitions of market value"},
 {id:"R14.3",table:"rea",phase:"Phase 14 — Theories, Principles & Methodology",law:"Highest and Best Use (HBU)",tags:["rea","hy"],group:"Professional Appraisal Practice",guide:"Four sequential tests: legally permissible; physically possible; financially feasible; maximally productive"},
@@ -750,10 +767,17 @@ let examQs=[],examAns=[],examCurQ=0,examN=100,examDone=false,lastExamQs=[];
 
 // ── BOOT ──
 (async function boot(){
-  const cfg=getCfg();
-  if(!cfg){hide('s-loader');show('s-config');return;}
+  // Always use the hard-coded Firebase config — no setup screen for users
+  const FIREBASE_CFG={
+    apiKey:"AIzaSyBgf_nFpsEKUzsvPZ00AUU9rTMTAwEihw8",
+    authDomain:"re-licensure-tracker.firebaseapp.com",
+    projectId:"re-licensure-tracker",
+    storageBucket:"re-licensure-tracker.firebasestorage.app",
+    messagingSenderId:"413335810049",
+    appId:"1:413335810049:web:df5bce620ccf9bbce25000"
+  };
   try{
-    const app=initializeApp(cfg);
+    const app=initializeApp(FIREBASE_CFG);
     fbAuth=getAuth(app);fbDb=getFirestore(app);
     onAuthStateChanged(fbAuth,async user=>{
       if(user){
@@ -766,14 +790,22 @@ let examQs=[],examAns=[],examCurQ=0,examN=100,examDone=false,lastExamQs=[];
         const sid=localStorage.getItem(SID_KEY)||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
         $('sheet-inp').value=sid;
         localStorage.setItem(SID_KEY,sid);
-        // Show Settings tab only for owner
-        if(user.email===OWNER_EMAIL){$('settings-tab').style.display='';$('admin-badge').style.display='';isAdmin=true;}
+        // Owner gets Settings tab + auto admin
+        if(user.email===OWNER_EMAIL){
+          $('settings-tab').style.display='';
+          $('admin-badge').style.display='';
+          isAdmin=true;
+          updateAdminToggleBtn();
+        }
         renderTracker();renderProgress();
         await fetchAll(false);
         await renderExamHist();
       }else{curUser=null;hide('s-loader');hide('s-app');show('s-auth');}
     });
-  }catch(e){hide('s-loader');show('s-config');$('cfg-err').textContent='Firebase error: '+e.message;}
+  }catch(e){
+    hide('s-loader');
+    alert('Firebase connection error: '+e.message+'. Please contact the admin.');
+  }
 })();
 
 // ── CONFIG ──
@@ -919,7 +951,11 @@ window.checkPin=()=>{
   if($('pin-inp').value===ADMIN_PW){isAdmin=true;$('admin-badge').style.display='';$('pin-box').style.display='none';renderTracker();flashToast();}
   else{$('pin-err').textContent='Incorrect password.';}
 };
-window.exitAdmin=()=>{ if(curUser&&curUser.email===OWNER_EMAIL)return; isAdmin=false;$('admin-badge').style.display='none';renderTracker(); };
+window.exitAdmin=()=>{
+  // For owner, use the toggle in Settings instead
+  if(curUser&&curUser.email===OWNER_EMAIL){ updateAdminToggleBtn(); return; }
+  isAdmin=false;$('admin-badge').style.display='none';renderTracker();
+};
 window.onAddPhaseClick=()=>{if(!isAdmin){showPinBox();return;}$('phase-modal').classList.add('open');$('ap-title').value='';};
 window.saveNewPhase=()=>{
   const title=$('ap-title').value.trim();if(!title)return;
@@ -1245,6 +1281,23 @@ window.retakeExam=()=>{
 window.showExamSetup=()=>{
   $('exam-setup').style.display='';$('exam-prog').style.display='none';$('exam-results').style.display='none';
   renderExamHist();
+};
+
+// ── ADMIN TOGGLE ──
+function updateAdminToggleBtn(){
+  const track=document.getElementById('admin-toggle-track');
+  const lbl=document.getElementById('admin-toggle-lbl');
+  if(!track||!lbl)return;
+  if(isAdmin){track.classList.add('on');lbl.classList.add('on');lbl.textContent='Admin On';}
+  else{track.classList.remove('on');lbl.classList.remove('on');lbl.textContent='Admin Off';}
+  // also update admin badge in header
+  $('admin-badge').style.display=isAdmin?'':'none';
+}
+window.toggleAdminMode=()=>{
+  isAdmin=!isAdmin;
+  updateAdminToggleBtn();
+  renderTracker();
+  flashToast();
 };
 
 // ── KEYBOARD ──
