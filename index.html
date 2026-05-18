@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Estate Management — Reviewer</title>
+<title>RE Licensure Exam — All-in-One</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -376,17 +376,17 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 <!-- AUTH -->
 <div id="s-auth" class="screen">
   <div class="auth-box">
-    <div class="auth-brand">REAL ESTATE MANAGEMENT</div>
-    <div class="auth-tag">Reviewer</div>
-    <div class="auth-title" id="auth-title">Welcome back</div>
-    <div class="auth-desc" id="auth-desc">Sign in to continue. Your progress syncs across all your devices.</div>
+    <div class="auth-brand">RE Licensure Exam</div>
+    <div class="auth-tag">PRC · RA 9646 · All-in-One Reviewer</div>
+    <div class="auth-title" id="auth-title">Sign In</div>
+    <div class="auth-desc" id="auth-desc">Welcome back. Your progress syncs across all your devices.</div>
     <div class="field" id="f-name" style="display:none;"><label>Full Name</label><input type="text" id="inp-name" placeholder="Juan dela Cruz" autocomplete="name"></div>
     <div class="field"><label>Email</label><input type="email" id="inp-email" placeholder="juan@email.com" autocomplete="email"></div>
     <div class="field"><label>Password</label><input type="password" id="inp-pw" placeholder="••••••••" autocomplete="current-password"></div>
     <div class="field" id="f-cpw" style="display:none;"><label>Confirm Password</label><input type="password" id="inp-cpw" placeholder="••••••••"></div>
     <div class="msg err" id="auth-err"></div>
     <button class="btn-full" id="auth-btn" onclick="doAuth()">Sign In</button>
-    <div class="auth-toggle"><span id="auth-tog">Don't have an account?</span> <button class="btn-link" onclick="toggleAuth()">Create one</button></div>
+    <div class="auth-toggle"><span id="auth-tog">New here?</span> <button class="btn-link" id="auth-toggle-link" onclick="toggleAuth()">Create an account</button></div>
   </div>
 </div>
 
@@ -404,7 +404,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
     <button class="tab active" data-v="tracker" onclick="switchTab(this)">Study Tracker</button>
     <button class="tab" data-v="study" onclick="switchTab(this)">Laws &amp; Terms</button>
     <button class="tab" data-v="exam" onclick="switchTab(this)">Mock Exam</button>
-    <button class="tab" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;">⚙️</button>
+    <button class="tab" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;">Settings</button>
   </nav>
   <div class="app-body">
 
@@ -779,12 +779,14 @@ window.resetConfig=()=>{if(confirm('Reset Firebase config? You will be signed ou
 // ── AUTH ──
 window.toggleAuth=()=>{
   isSignup=!isSignup;
-  $('auth-title').textContent=isSignup?'Create account':'Welcome back';
-  $('auth-desc').textContent=isSignup?'Sign up — progress syncs across all devices.':'Sign in to continue your review.';
+  $('auth-title').textContent=isSignup?'Create Account':'Sign In';
+  $('auth-desc').textContent=isSignup?'Sign up — your progress syncs across all devices.':'Welcome back. Your progress syncs across all your devices.';
   $('auth-btn').textContent=isSignup?'Create Account':'Sign In';
-  $('auth-tog').textContent=isSignup?'Already have an account?':"Don't have an account?";
+  $('auth-tog').textContent=isSignup?'Already have an account?':'New here?';
+  document.querySelector('#auth-toggle-link').textContent=isSignup?'Sign in instead':'Create an account';
   $('f-name').style.display=isSignup?'':'none';
   $('f-cpw').style.display=isSignup?'':'none';
+  $('auth-err').textContent='';
   $('auth-err').textContent='';
 };
 window.doAuth=async()=>{
