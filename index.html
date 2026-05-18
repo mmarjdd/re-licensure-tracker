@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Estate Management — Reviewer</title>
+<title>REAL ESTATE MANAGEMENT — Reviewer</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -73,6 +73,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 .tab{padding:12px 13px;font-size:12px;font-weight:500;color:var(--text-3);border:none;background:none;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;}
 .tab:hover{color:var(--text);}
 .tab.active{color:var(--brown);border-bottom-color:var(--brown);}
+.tab.tab-icon{font-size:18px;padding:9px 14px;letter-spacing:0;}
+.tab.tab-icon.active{color:var(--brown);}
 .app-body{padding:18px 18px;max-width:960px;width:100%;margin:0 auto;}
 .view{display:none;}
 .view.on{display:block;}
@@ -354,7 +356,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 
 <!-- LOADER -->
 <div id="s-loader" class="screen on">
-  <div class="ld-logo">Real Estate Management<br><span style="font-size:13px;font-weight:400;color:var(--brown-lt);">Study Tracker · Laws & Terms · Mock Exam</span></div>
+  <div class="ld-logo">Real Estate Management Reviewer<br><span style="font-size:13px;font-weight:400;color:var(--brown-lt);">Study Tracker · Laws & Terms · Mock Exam</span></div>
   <div class="spinner"></div>
 </div>
 
@@ -401,7 +403,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 <!-- APP -->
 <div id="s-app" class="screen">
   <header class="app-header">
-    <span class="app-logo">REAL ESTATE MANAGEMENT</span>
+    <span class="app-logo">Real Estate Management</span>
     <div class="header-r">
       <span class="admin-badge" id="admin-badge">Admin</span>
       <span class="user-badge" id="user-badge">—</span>
@@ -412,14 +414,14 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
     <button class="tab active" data-v="tracker" onclick="switchTab(this)">Study Tracker</button>
     <button class="tab" data-v="study" onclick="switchTab(this)">Laws &amp; Terms</button>
     <button class="tab" data-v="exam" onclick="switchTab(this)">Mock Exam</button>
-    <button class="tab" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;">Settings</button>
+    <button class="tab tab-icon" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;" title="Settings">⚙︎</button>
   </nav>
   <div class="app-body">
 
     <!-- TRACKER -->
     <div class="view on" id="view-tracker">
       <div class="pg-title" id="t-greet">Study Tracker</div>
-      <div class="pg-sub">REAL ESTATE MANAGEMENT</div>
+      <div class="pg-sub">REAL ESTATE MANAGEMENT · Appraiser · Broker</div>
       <div class="rings-row" id="rings-row"></div>
       <div class="bar-panel"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;">Progress by Table</div><div id="bar-chart"></div></div>
       <div class="pin-box" id="pin-box">
@@ -442,8 +444,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
         <span class="lg" style="background:var(--green-bg);color:var(--green-dk);border-color:rgba(90,154,58,.4);">Both</span>
         <span class="lg" style="background:var(--purple-bg);color:var(--purple-dk);border-color:rgba(107,95,212,.4);">REA only</span>
         <span class="lg" style="background:var(--blue-bg);color:var(--blue-dk);border-color:rgba(45,124,196,.4);">REB only</span>
-        <span class="lg" style="background:var(--hy-bg);color:var(--hy);border-color:var(--hy-bd);">Very High Yield</span>
-        <span class="lg" style="background:var(--custom-bg);color:var(--custom);border-color:var(--custom-bd);">Custom</span>
       </div>
       <div class="t-search"><span style="color:var(--text-3);">🔍</span><input id="t-search" placeholder="Search topics, laws, phase names…" oninput="renderTracker()"></div>
       <div id="phase-list"></div>
@@ -679,8 +679,8 @@ Database: Firestore (test mode)
         <button class="btn-sm sec" style="color:var(--err);border-color:var(--err);" onclick="resetConfig()">Reset &amp; Clear Config</button>
       </div>
       <div class="set-card" style="text-align:center;">
-        <div style="font-size:10px;font-weight:400;color:var(--brown-md);">Engr. Mary Marjorie D. Dumlao, RCE, RMP, SO-II</div>
-        <div style="font-size:8px;color:var(--text-3);margin-top:3px;">Real Estate Licensure Exam Reviewer · 2026–2027</div>
+        <div style="font-size:13px;font-weight:600;color:var(--brown-md);">Engr. Mary Marjorie D. Dumlao, RCE, RMP, SO-II</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:3px;">Real Estate Licensure Exam Reviewer · 2026–2027</div>
       </div>
     </div>
 
