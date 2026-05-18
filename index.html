@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RE Licensure Exam — All-in-One</title>
+<title>Real Estate Management — Reviewer</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -229,7 +229,8 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 .q-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:11px;}
 .q-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-bottom:8px;}
 .q-text{font-size:15px;line-height:1.65;margin-bottom:13px;}
-.choices{display:grid;gap:7px;}
+.choices{display:grid;gap:8px;}
+@media(min-width:760px){.exam-q-main .choices{grid-template-columns:1fr 1fr;}}
 .choice{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rsm);cursor:pointer;font-size:13px;color:var(--text);transition:all .12s;width:100%;text-align:left;background:#fff;font-family:inherit;line-height:1.5;}
 .choice:hover:not(:disabled){border-color:var(--brown-md);background:var(--cream-md);}
 .choice.sel{border-color:var(--brown-md);background:var(--cream-md);}
@@ -308,6 +309,28 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 /* TOAST */
 .toast{position:fixed;bottom:18px;right:18px;background:var(--brown-md);color:#fff;padding:8px 16px;border-radius:100px;font-size:12px;font-weight:500;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;}
 .toast.show{opacity:1;}
+/* ── EXAM LAYOUT — iPad/Laptop optimized ── */
+.exam-setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+.exam-setup-left{}
+.exam-setup-right{}
+.n-opts-wide{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.exam-prog-grid{display:grid;grid-template-columns:1fr 260px;gap:16px;align-items:start;}
+.exam-q-main{}
+.exam-q-side{}
+.dot-map{display:flex;flex-wrap:wrap;gap:5px;}
+.dot-map .dm{width:26px;height:26px;border-radius:5px;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1.5px solid var(--border-md);background:#fff;color:var(--text-3);transition:all .12s;}
+.dot-map .dm:hover{border-color:var(--brown-md);color:var(--brown-md);}
+.dot-map .dm.dm-ans{background:var(--brown-md);border-color:var(--brown-md);color:#fff;}
+.dot-map .dm.dm-cur{background:var(--cream-dk);border-color:var(--brown-md);color:var(--brown);font-weight:700;box-shadow:0 0 0 2px rgba(107,79,83,.2);}
+.q-text{font-size:16px;line-height:1.7;margin-bottom:16px;}
+.choices-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:760px){
+  .exam-setup-grid{grid-template-columns:1fr;}
+  .exam-prog-grid{grid-template-columns:1fr;}
+  .exam-q-side{display:none;}
+  .n-opts-wide{grid-template-columns:repeat(2,1fr);}
+  .choices-grid{grid-template-columns:1fr;}
+}
 @media(max-width:600px){
   .rings-row{justify-content:flex-start;}
   .ring-card{min-width:110px;}
@@ -381,7 +404,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
     <button class="tab active" data-v="tracker" onclick="switchTab(this)">Study Tracker</button>
     <button class="tab" data-v="study" onclick="switchTab(this)">Laws &amp; Terms</button>
     <button class="tab" data-v="exam" onclick="switchTab(this)">Mock Exam</button>
-    <button class="tab" data-v="settings" onclick="switchTab(this)">Settings</button>
+    <button class="tab" data-v="settings" id="settings-tab" onclick="switchTab(this)" style="display:none;">⚙️</button>
   </nav>
   <div class="app-body">
 
@@ -508,41 +531,75 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
 
     <!-- EXAM -->
     <div class="view" id="view-exam">
+
+      <!-- SETUP -->
       <div id="exam-setup">
-        <div style="max-width:540px;">
-          <div class="pg-title">Mock Board Exam</div>
-          <div class="pg-sub" style="margin-bottom:14px;">Questions are randomly drawn and shuffled each attempt.</div>
-          <div class="hist-panel">
-            <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;">Your Exam History</div>
-            <div id="exam-hist"><p style="font-size:12px;color:var(--text-3);">No exams yet.</p></div>
+        <div class="pg-title">Mock Board Exam</div>
+        <div class="pg-sub" style="margin-bottom:16px;">Questions are randomly drawn from your Google Sheet and shuffled each attempt.</div>
+        <div class="exam-setup-grid">
+          <div class="exam-setup-left">
+            <div class="set-card">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;">Number of Questions</div>
+              <div class="n-opts-wide">
+                <div class="n-opt sel" data-n="100" onclick="selN(this,100)"><div class="nt">100 Questions</div><div class="ns">Full board exam</div></div>
+                <div class="n-opt" data-n="50" onclick="selN(this,50)"><div class="nt">50 Questions</div><div class="ns">Half set</div></div>
+                <div class="n-opt" data-n="20" onclick="selN(this,20)"><div class="nt">20 Questions</div><div class="ns">Quick quiz</div></div>
+                <div class="n-opt" data-n="200" onclick="selN(this,200)"><div class="nt">200 Questions</div><div class="ns">Extended review</div></div>
+                <div class="n-opt" data-n="0" onclick="selN(this,0)"><div class="nt">All Questions</div><div class="ns">Entire bank</div></div>
+              </div>
+              <div class="form-row" style="margin-top:14px;margin-bottom:14px;">
+                <label>Filter by Category (optional)</label>
+                <select id="exam-cat"><option value="">All Categories</option></select>
+              </div>
+              <button class="btn-begin" style="width:100%;padding:13px;font-size:14px;" onclick="beginExam()">Begin Exam</button>
+            </div>
           </div>
-          <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:8px;">Number of Questions</div>
-          <div class="n-opts">
-            <div class="n-opt sel" data-n="100" onclick="selN(this,100)"><div class="nt">100 Questions</div><div class="ns">Full board exam</div></div>
-            <div class="n-opt" data-n="50" onclick="selN(this,50)"><div class="nt">50 Questions</div><div class="ns">Half set</div></div>
-            <div class="n-opt" data-n="20" onclick="selN(this,20)"><div class="nt">20 Questions</div><div class="ns">Quick quiz</div></div>
-            <div class="n-opt" data-n="200" onclick="selN(this,200)"><div class="nt">200 Questions</div><div class="ns">Extended review</div></div>
-            <div class="n-opt" data-n="0" onclick="selN(this,0)"><div class="nt">All Questions</div><div class="ns">Entire bank</div></div>
+          <div class="exam-setup-right">
+            <div class="set-card" style="height:100%;">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:12px;">Your Exam History</div>
+              <div id="exam-hist"><p style="font-size:12px;color:var(--text-3);">No exams yet.</p></div>
+            </div>
           </div>
-          <div class="form-row"><label>Category (optional)</label><select id="exam-cat"><option value="">All Categories</option></select></div>
-          <button class="btn-begin" onclick="beginExam()">Begin Exam</button>
         </div>
       </div>
+
+      <!-- IN PROGRESS -->
       <div id="exam-prog" style="display:none;">
-        <div class="ex-top">
-          <span style="font-size:12px;color:var(--text-2);">Question <strong id="qn">1</strong> of <span id="qtot">100</span></span>
-          <span class="cat-chip" id="qcat">—</span>
-          <span style="font-size:11px;color:var(--text-3);" id="qans-ct">0 answered</span>
+        <div class="exam-prog-grid">
+          <div class="exam-q-main">
+            <div class="ex-top">
+              <span style="font-size:12px;color:var(--text-2);">Question <strong id="qn">1</strong> of <span id="qtot">100</span></span>
+              <span class="cat-chip" id="qcat">—</span>
+              <span style="font-size:11px;color:var(--text-3);" id="qans-ct">0 answered</span>
+            </div>
+            <div class="qbar-bg"><div class="qbar-fill" id="qbar"></div></div>
+            <div class="q-card">
+              <div class="q-lbl" id="qlbl"></div>
+              <div class="q-text" id="qtext"></div>
+              <div class="choices" id="qchoices"></div>
+            </div>
+            <div class="ex-nav">
+              <button class="bn bn-prev" onclick="nav(-1)">&larr; Prev</button>
+              <div class="dots" id="qdots"></div>
+              <button class="bn bn-next" id="btn-next" onclick="nav(1)">Next &rarr;</button>
+            </div>
+          </div>
+          <div class="exam-q-side">
+            <div class="set-card" style="position:sticky;top:70px;">
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;">Question Map</div>
+              <div class="dot-map" id="dot-map"></div>
+              <div style="margin-top:14px;display:flex;flex-direction:column;gap:5px;">
+                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--brown-md);display:inline-block;flex-shrink:0;"></span>Answered</div>
+                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--border);display:inline-block;flex-shrink:0;border:1.5px solid var(--border-md);"></span>Unanswered</div>
+                <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text-2);"><span style="width:10px;height:10px;border-radius:50%;background:transparent;display:inline-block;flex-shrink:0;outline:2px solid var(--brown-md);outline-offset:2px;"></span>Current</div>
+              </div>
+              <button class="btn-submit" style="width:100%;margin-top:16px;padding:11px;" onclick="confirmSubmit()">Submit Exam</button>
+            </div>
+          </div>
         </div>
-        <div class="qbar-bg"><div class="qbar-fill" id="qbar"></div></div>
-        <div class="q-card"><div class="q-lbl" id="qlbl"></div><div class="q-text" id="qtext"></div><div class="choices" id="qchoices"></div></div>
-        <div class="ex-nav">
-          <button class="bn bn-prev" onclick="nav(-1)">&larr; Prev</button>
-          <div class="dots" id="qdots"></div>
-          <button class="bn bn-next" id="btn-next" onclick="nav(1)">Next &rarr;</button>
-        </div>
-        <div class="submit-row"><button class="btn-submit" onclick="confirmSubmit()">Submit Exam</button></div>
       </div>
+
+      <!-- RESULTS -->
       <div id="exam-results" style="display:none;">
         <div class="res-banner">
           <div class="score-ring"><div class="rpct" id="r-pct">0%</div><div class="rl">Score</div></div>
@@ -559,6 +616,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
         </div>
         <div class="review-wrap"><div class="review-hdr">Answer Review</div><div id="review-list"></div></div>
       </div>
+
     </div>
 
     <!-- SETTINGS -->
@@ -612,6 +670,7 @@ Row 1 in each tab = headers (skipped automatically)
 const ADMIN_PW="marjie";
 const CFG_KEY="rela_cfg_v2";
 const SID_KEY="rela_sid";
+const OWNER_EMAIL="marymarjoriedumlao@gmail.com";
 const TAG_S={
   both:{bg:"#eaf3de",cl:"#27500a",bd:"rgba(90,154,58,.4)"},
   rea: {bg:"#eeedfe",cl:"#3c3489",bd:"rgba(107,95,212,.4)"},
@@ -698,6 +757,8 @@ let examQs=[],examAns=[],examCurQ=0,examN=100,examDone=false,lastExamQs=[];
         const sid=localStorage.getItem(SID_KEY)||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
         $('sheet-inp').value=sid;
         localStorage.setItem(SID_KEY,sid);
+        // Show Settings tab only for owner
+        if(user.email===OWNER_EMAIL){$('settings-tab').style.display='';$('admin-badge').style.display='';isAdmin=true;}
         renderTracker();renderProgress();
         await fetchAll(false);
         await renderExamHist();
@@ -847,7 +908,7 @@ window.checkPin=()=>{
   if($('pin-inp').value===ADMIN_PW){isAdmin=true;$('admin-badge').style.display='';$('pin-box').style.display='none';renderTracker();flashToast();}
   else{$('pin-err').textContent='Incorrect password.';}
 };
-window.exitAdmin=()=>{isAdmin=false;$('admin-badge').style.display='none';renderTracker();};
+window.exitAdmin=()=>{ if(curUser&&curUser.email===OWNER_EMAIL)return; isAdmin=false;$('admin-badge').style.display='none';renderTracker(); };
 window.onAddPhaseClick=()=>{if(!isAdmin){showPinBox();return;}$('phase-modal').classList.add('open');$('ap-title').value='';};
 window.saveNewPhase=()=>{
   const title=$('ap-title').value.trim();if(!title)return;
@@ -1114,10 +1175,21 @@ function renderExamQ(){
   $('qlbl').textContent=`Question ${examCurQ+1} of ${tot}`;
   $('qtext').textContent=q.q;
   $('qbar').style.width=((examCurQ+1)/tot*100)+'%';
-  $('qans-ct').textContent=examAns.filter(a=>a!==-1).length+' answered';
+  const answeredCount=examAns.filter(a=>a!==-1).length;
+  $('qans-ct').textContent=answeredCount+' of '+tot+' answered';
   const ltrs=['A','B','C','D'];
+  // Two-column choices on wider screens
   $('qchoices').innerHTML=q.choices.map((c,i)=>`<button class="choice${examAns[examCurQ]===i?' sel':''}" onclick="pickExam(${i})" ${examDone?'disabled':''}><span class="cltr">${ltrs[i]}</span><span>${c}</span></button>`).join('');
+  // Bottom dot nav (mobile/compact)
   $('qdots').innerHTML=examQs.map((_,i)=>{let cls='dot';if(examAns[i]!==-1)cls+=' ans';if(i===examCurQ)cls+=' cur';return`<div class="${cls}" onclick="goQ(${i})" title="Q${i+1}"></div>`;}).join('');
+  // Sidebar dot map (desktop/iPad)
+  const dm=$('dot-map');
+  if(dm)dm.innerHTML=examQs.map((_,i)=>{
+    let cls='dm';
+    if(examAns[i]!==-1)cls+=' dm-ans';
+    if(i===examCurQ)cls+=' dm-cur';
+    return`<div class="${cls}" onclick="goQ(${i})" title="Q${i+1}">${i+1}</div>`;
+  }).join('');
   const nb=$('btn-next');
   if(examCurQ===tot-1){nb.textContent='Submit';nb.onclick=window.confirmSubmit;}
   else{nb.textContent='Next →';nb.onclick=()=>window.nav(1);}
