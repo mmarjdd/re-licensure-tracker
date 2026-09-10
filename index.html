@@ -1057,11 +1057,14 @@ window.fetchAll=async(verbose)=>{
 };
 function parseExamQ(rows){
   return rows.reduce((acc,c)=>{
-    if(c.length<7)return acc;
-    const[cat,q,a,b,cc,d,ans,exp]=c;
-    const ai={A:0,B:1,C:2,D:3}[(ans||'').trim().toUpperCase()];
+    if(c.length<3)return acc;
+    const cat=c[0]||'',q=c[1]||'',a=c[2]||'',b=c[3]||'',cc=c[4]||'',d=c[5]||'';
+    // Answer can be in col G (index 6) or col H (index 7) — try both
+    const rawAns=(c[6]||c[7]||'').trim().toUpperCase().replace(/[^ABCD]/g,'');
+    const ai={A:0,B:1,C:2,D:3}[rawAns];
     if(ai===undefined||!q.trim())return acc;
-    acc.push({cat:cat.trim()||'General',q:q.trim(),choices:[a.trim(),b.trim(),cc.trim(),d.trim()],ans:ai,exp:(exp||'').trim()});
+    const exp=(c[7]||c[8]||'').trim();
+    acc.push({cat:cat.trim()||'General',q:q.trim(),choices:[a.trim(),b.trim(),cc.trim(),d.trim()],ans:ai,exp});
     return acc;
   },[]);
 }
