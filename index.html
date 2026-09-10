@@ -1028,7 +1028,20 @@ function flashToast(){const t=$('toast');t.classList.add('show');setTimeout(()=>
 // ── SHEETS ──
 function extractId(r){r=(r||'').trim();const m=r.match(/\/d\/([a-zA-Z0-9_-]+)/);if(m)return m[1];if(/^[a-zA-Z0-9_-]{20,}$/.test(r))return r;return null;}
 function splitCSV(line){const r=[];let cur='',inq=false;for(let i=0;i<line.length;i++){if(line[i]==='"')inq=!inq;else if(line[i]===','&&!inq){r.push(cur);cur='';}else cur+=line[i];}r.push(cur);return r.map(s=>s.replace(/^"|"$/g,'').trim());}
-function parseRows(csv){return csv.split('\n').filter(l=>l.trim()).slice(1).map(l=>splitCSV(l)).filter(r=>r.filter(Boolean).length>=2);}
+function parseRows(csv){
+  // Handle multi-line cells (quoted fields with 
+ inside)
+  const rows=[];let cur='',inq=false;
+  for(let i=0;i<csv.length;i++){
+    const ch=csv[i];
+    if(ch==='"'){inq=!inq;cur+=ch;}
+    else if(ch==='
+'&&!inq){rows.push(cur);cur='';}
+    else{cur+=ch;}
+  }
+  if(cur.trim())rows.push(cur);
+  return rows.filter(l=>l.trim()).slice(1).map(l=>splitCSV(l)).filter(r=>r.filter(Boolean).length>=2);
+}
 window.saveAndFetch=async()=>{
   const id=extractId($('sheet-inp').value);
   if(!id){setSt('Invalid Sheet ID.',false);return;}
