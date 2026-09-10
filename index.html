@@ -693,6 +693,12 @@ Row 1 in each tab = headers (skipped automatically)
         <div style="font-size:11px;color:var(--text-3);line-height:1.6;">When <strong>on</strong>: you can add links, phases, and lessons in the Study Tracker.<br>When <strong>off</strong>: clean study view — same as what students see.</div>
       </div>
       <div class="set-card">
+        <h3>Migrate Existing Links</h3>
+        <p>Copy all your existing resource links to the shared collection so all students can see them. Only needs to be done once.</p>
+        <button class="btn-sm" id="migrate-btn" onclick="migrateLinks()">Copy My Links to Shared</button>
+        <div class="msg" id="migrate-msg" style="margin-top:8px;"></div>
+      </div>
+      <div class="set-card">
         <h3>Firebase Configuration</h3>
         <p>Your Firebase project keys are hard-coded into the app. Only reset this if you switch to a different Firebase project.</p>
         <div class="code-b" style="font-size:10.5px;">
@@ -1151,7 +1157,7 @@ window.renderTracker=()=>{
         <thead><tr><th style="width:30px">✓</th><th style="width:22px">#</th><th style="min-width:140px">Topic / Law</th><th class="col-grp" style="min-width:100px">Subject Group</th><th style="min-width:200px">Key Coverage</th><th style="min-width:130px">Resources</th></tr></thead>
         <tbody>${rows.map((row,ri)=>{
           const done=!!myChks()[row.id];
-          <div class="auth-toggle"><span id="auth-tog">New here?</span> <button class="btn-link" id="auth-toggle-link" onclick="toggleAuth()">Create an account</button></div>     <div class="auth-toggle" style="margin-top:6px;" id="forgot-row">       <button class="btn-link" onclick="showForgot()" style="color:var(--text-3);font-size:11px;">Forgot password?</button>     </div>
+          const rowLinks=sharedLinks[row.id]||[];
           const tagHtml=row.tags.map(t=>{const s=TAG_S[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
           const linksHtml=rowLinks.map((lk,idx)=>`<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;"><a href="${lk.url}" target="_blank" class="res-link" style="flex:1;"><span>📂</span><span>${lk.title}</span></a>${isAdmin?`<button onclick="delLink('${row.id}',${idx})" style="flex-shrink:0;font-size:11px;background:var(--red-bg);color:var(--red);border:1px solid #f5c0c0;border-radius:4px;width:18px;height:18px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;">×</button>`:''}
           </div>`).join('');
@@ -1439,6 +1445,53 @@ window.showExamSetup=()=>{
 };
 
 // ── ADMIN TOGGLE ──
+window.migrateLinks=async()=>{
+  const btn=document.getElementById('migrate-btn');
+  const msg=document.getElementById('migrate-msg');
+  if(!curUser||!fbDb){msg.textContent='Not logged in.';msg.className='msg err';return;}
+  try{
+    btn.disabled=true;btn.textContent='Migrating…';
+    msg.textContent='';msg.className='msg';
+    // Load current user links from Firestore
+    const userRef=doc(fbDb,'users',curUser.uid);
+    const userSnap=await getDoc(userRef);
+    if(!userSnap.exists()){msg.textContent='No user data found.';msg.className='msg err';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
+    const userLinks=userSnap.data().links||{};
+    const linkCount=Object.values(userLinks).reduce((sum,arr)=>sum+(arr?.length||0),0);
+    if(linkCount===0){msg.textContent='No existing links found in your account.';msg.className='msg';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
+    // Merge with any existing shared links
+    const sharedRef=doc(fbDb,'shared','links');
+    const sharedSnap=await getDoc(sharedRef);
+    const existingShared=sharedSnap.exists()?(sharedSnap.data().links||{}):{};
+    // Merge: combine existing shared + user links (no duplicates by title+url)
+    const merged={...existingShared};
+    for(const[rowId,links] of Object.entries(userLinks)){
+      if(!links||!links.length)continue;
+      const existing=merged[rowId]||[];
+      const newLinks=links.filter(nl=>!existing.some(el=>el.url===nl.url));
+      if(newLinks.length)merged[rowId]=[...existing,...newLinks];
+    }
+    // Save to shared doc
+    if(sharedSnap.exists())await updateDoc(sharedRef,{links:merged});
+    else await setDoc(sharedRef,{links:merged});
+    // Update local sharedLinks
+    sharedLinks=merged;
+    const total=Object.values(merged).reduce((sum,arr)=>sum+(arr?.length||0),0);
+    msg.textContent=`✓ Done! ${linkCount} link${linkCount!==1?'s':''} copied to shared. Students can now see them.`;
+    msg.className='msg ok';
+    btn.textContent='Copy My Links to Shared';
+    btn.disabled=false;
+    renderTracker();
+    flashToast();
+  }catch(e){
+    console.error(e);
+    msg.textContent='Error: '+e.message;
+    msg.className='msg err';
+    btn.disabled=false;
+    document.getElementById('migrate-btn').textContent='Copy My Links to Shared';
+  }
+};
+
 function updateAdminToggleBtn(){
   const track=document.getElementById('admin-toggle-track');
   const lbl=document.getElementById('admin-toggle-lbl');
