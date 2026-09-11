@@ -1037,7 +1037,16 @@ function parseRows(csv){
     else{cur+=ch;}
   }
   if(cur.trim())rows.push(cur);
-  return rows.filter(l=>l.trim()).slice(1).map(l=>splitCSV(l)).filter(r=>r.filter(Boolean).length>=2);
+  const cleaned=rows.filter(l=>l.trim());
+  if(!cleaned.length)return[];
+  // Detect if first row is a header by checking if it contains known header words
+  const firstRow=(cleaned[0]||'').toLowerCase();
+  const isHeader=firstRow.includes('category')||firstRow.includes('question')||
+    firstRow.includes('term')||firstRow.includes('definition')||
+    firstRow.includes('law')||firstRow.includes('provision')||
+    firstRow.includes('choice')||firstRow.includes('answer');
+  const dataRows=isHeader?cleaned.slice(1):cleaned;
+  return dataRows.map(l=>splitCSV(l)).filter(r=>r.filter(Boolean).length>=2);
 }
 window.saveAndFetch=async()=>{
   const id=extractId($('sheet-inp').value);
@@ -1052,9 +1061,23 @@ window.fetchAll=async(verbose)=>{
   try{
     const base=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=`;
     const fetchSheet=async(name)=>{
-      const exportUrl=`https://docs.google.com/spreadsheets/d/${id}/export?format=csv&sheet=${encodeURIComponent(name)}`;
-      try{const r=await fetch(exportUrl);if(r.ok){const txt=await r.text();if(txt.trim().length>10)return txt;}}catch(e){}
-      const r2=await fetch(base+name);return r2.ok?await r2.text():'';
+      const encoded=encodeURIComponent(name);
+      // Use range A:Z to ensure all columns, no row limit
+      const urls=[
+        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&range=A:Z`,
+        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}`,
+        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${name}`,
+      ];
+      for(const url of urls){
+        try{
+          const r=await fetch(url);
+          if(!r.ok)continue;
+          const txt=await r.text();
+          if(!txt.trim()||txt.trim().startsWith('<'))continue;
+          return txt;
+        }catch(e){continue;}
+      }
+      return '';
     };
     const[lt,tt,qt]=await Promise.all([fetchSheet('Laws'),fetchSheet('Terms'),fetchSheet('Questions')]);
     if(lt){const rows=parseRows(lt);if(rows.length)LAWS=rows;}
