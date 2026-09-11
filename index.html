@@ -858,8 +858,8 @@ let isAdmin=false,isSignup=false;
 // tracker
 let tTab='all',collapsed={},customData={phases:[],rows:[]},allChecks={},allLinks={},addingLinkId=null,lessonPhase=null;
 // study
-  let LAWS=[],TERMS=[],dataReady=false;
-  let sharedLinks={};
+let LAWS=[],TERMS=[],dataReady=false;
+let sharedLinks={};
 let fcFilter='terms',fcDeck=[],fcIdx=0,fcFlipped=false;
 let sfFilter='all';
 let qFilter='all',qDeck=[],qIdx=0,qScore=0,qAnswered=false,qSel=null;
@@ -1029,14 +1029,11 @@ function flashToast(){const t=$('toast');t.classList.add('show');setTimeout(()=>
 function extractId(r){r=(r||'').trim();const m=r.match(/\/d\/([a-zA-Z0-9_-]+)/);if(m)return m[1];if(/^[a-zA-Z0-9_-]{20,}$/.test(r))return r;return null;}
 function splitCSV(line){const r=[];let cur='',inq=false;for(let i=0;i<line.length;i++){if(line[i]==='"')inq=!inq;else if(line[i]===','&&!inq){r.push(cur);cur='';}else cur+=line[i];}r.push(cur);return r.map(s=>s.replace(/^"|"$/g,'').trim());}
 function parseRows(csv){
-  // Handle multi-line cells (quoted fields with 
- inside)
   const rows=[];let cur='',inq=false;
   for(let i=0;i<csv.length;i++){
     const ch=csv[i];
     if(ch==='"'){inq=!inq;cur+=ch;}
-    else if(ch==='
-'&&!inq){rows.push(cur);cur='';}
+    else if(ch==='\n'&&!inq){rows.push(cur);cur='';}
     else{cur+=ch;}
   }
   if(cur.trim())rows.push(cur);
@@ -1054,10 +1051,23 @@ window.fetchAll=async(verbose)=>{
   if(verbose){$('sync-dot').className='sync-dot loading';$('sync-txt').textContent='Loading…';setSt('Fetching…',null);}
   try{
     const base=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=`;
-    const[lr,tr,qr]=await Promise.all([fetch(base+'Laws'),fetch(base+'Terms'),fetch(base+'Questions')]);
-    if(lr.ok){const rows=parseRows(await lr.text());if(rows.length)LAWS=rows;}
-    if(tr.ok){const rows=parseRows(await tr.text());if(rows.length)TERMS=rows;}
-    if(qr.ok){const rows=parseRows(await qr.text());examQs=parseExamQ(rows);lastExamQs=[];renderExamCats();}
+    // Helper to fetch full sheet with no row limit
+    const fetchSheet=async(name)=>{
+      // Try export URL first (no row limit, most reliable)
+      const exportUrl=`https://docs.google.com/spreadsheets/d/${id}/export?format=csv&sheet=${encodeURIComponent(name)}`;
+      const gvizUrl=`${base}${name}`;
+      try{
+        const r=await fetch(exportUrl);
+        if(r.ok){const txt=await r.text();if(txt.trim().length>10)return txt;}
+      }catch(e){}
+      // Fallback to gviz
+      const r2=await fetch(gvizUrl);
+      return r2.ok?await r2.text():'';
+    };
+    const[lt,tt,qt]=await Promise.all([fetchSheet('Laws'),fetchSheet('Terms'),fetchSheet('Questions')]);
+    if(lt){const rows=parseRows(lt);if(rows.length)LAWS=rows;}
+    if(tt){const rows=parseRows(tt);if(rows.length)TERMS=rows;}
+    if(qt){const rows=parseRows(qt);if(rows.length){examQs=parseExamQ(rows);lastExamQs=[];renderExamCats();}}
     dataReady=true;
     $('sync-dot').className='sync-dot';$('sync-txt').textContent=`Live · ${LAWS.length} laws · ${TERMS.length} terms · ${examQs.length} questions`;
     doSearch();buildFCDeck();buildQuiz();
@@ -1072,7 +1082,6 @@ function parseExamQ(rows){
   return rows.reduce((acc,c)=>{
     if(c.length<3)return acc;
     const cat=c[0]||'',q=c[1]||'',a=c[2]||'',b=c[3]||'',cc=c[4]||'',d=c[5]||'';
-    // Answer can be in col G (index 6) or col H (index 7) — try both
     const rawAns=(c[6]||c[7]||'').trim().toUpperCase().replace(/[^ABCD]/g,'');
     const ai={A:0,B:1,C:2,D:3}[rawAns];
     if(ai===undefined||!q.trim())return acc;
@@ -1173,8 +1182,9 @@ window.renderTracker=()=>{
         <thead><tr><th style="width:30px">✓</th><th style="width:22px">#</th><th style="min-width:140px">Topic / Law</th><th class="col-grp" style="min-width:100px">Subject Group</th><th style="min-width:200px">Key Coverage</th><th style="min-width:130px">Resources</th></tr></thead>
         <tbody>${rows.map((row,ri)=>{
           const done=!!myChks()[row.id];
-          const rowLinks=sharedLinks[row.id]||[];
+          <div class="auth-toggle"><span id="auth-tog">New here?</span> <button class="btn-link" id="auth-toggle-link" onclick="toggleAuth()">Create an account</button></div>     <div class="auth-toggle" style="margin-top:6px;" id="forgot-row">       <button class="btn-link" onclick="showForgot()" style="color:var(--text-3);font-size:11px;">Forgot password?</button>     </div>
           const tagHtml=row.tags.map(t=>{const s=TAG_S[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
+          const rowLinks=sharedLinks[row.id]||[];
           const linksHtml=rowLinks.map((lk,idx)=>`<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;"><a href="${lk.url}" target="_blank" class="res-link" style="flex:1;"><span>📂</span><span>${lk.title}</span></a>${isAdmin?`<button onclick="delLink('${row.id}',${idx})" style="flex-shrink:0;font-size:11px;background:var(--red-bg);color:var(--red);border:1px solid #f5c0c0;border-radius:4px;width:18px;height:18px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;">×</button>`:''}
           </div>`).join('');
           const addBtn=isAdmin?(addingLinkId===row.id?
@@ -1468,18 +1478,15 @@ window.migrateLinks=async()=>{
   try{
     btn.disabled=true;btn.textContent='Migrating…';
     msg.textContent='';msg.className='msg';
-    // Load current user links from Firestore
     const userRef=doc(fbDb,'users',curUser.uid);
     const userSnap=await getDoc(userRef);
     if(!userSnap.exists()){msg.textContent='No user data found.';msg.className='msg err';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
     const userLinks=userSnap.data().links||{};
     const linkCount=Object.values(userLinks).reduce((sum,arr)=>sum+(arr?.length||0),0);
-    if(linkCount===0){msg.textContent='No existing links found in your account.';msg.className='msg';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
-    // Merge with any existing shared links
+    if(linkCount===0){msg.textContent='No existing links found.';msg.className='msg';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
     const sharedRef=doc(fbDb,'shared','links');
     const sharedSnap=await getDoc(sharedRef);
     const existingShared=sharedSnap.exists()?(sharedSnap.data().links||{}):{};
-    // Merge: combine existing shared + user links (no duplicates by title+url)
     const merged={...existingShared};
     for(const[rowId,links] of Object.entries(userLinks)){
       if(!links||!links.length)continue;
@@ -1487,27 +1494,23 @@ window.migrateLinks=async()=>{
       const newLinks=links.filter(nl=>!existing.some(el=>el.url===nl.url));
       if(newLinks.length)merged[rowId]=[...existing,...newLinks];
     }
-    // Save to shared doc
     if(sharedSnap.exists())await updateDoc(sharedRef,{links:merged});
     else await setDoc(sharedRef,{links:merged});
-    // Update local sharedLinks
     sharedLinks=merged;
     const total=Object.values(merged).reduce((sum,arr)=>sum+(arr?.length||0),0);
-    msg.textContent=`✓ Done! ${linkCount} link${linkCount!==1?'s':''} copied to shared. Students can now see them.`;
+    msg.textContent=`✓ Done! ${linkCount} link${linkCount!==1?'s':''} copied. Students can now see them.`;
     msg.className='msg ok';
     btn.textContent='Copy My Links to Shared';
     btn.disabled=false;
     renderTracker();
     flashToast();
   }catch(e){
-    console.error(e);
     msg.textContent='Error: '+e.message;
     msg.className='msg err';
     btn.disabled=false;
-    document.getElementById('migrate-btn').textContent='Copy My Links to Shared';
+    btn.textContent='Copy My Links to Shared';
   }
 };
-
 function updateAdminToggleBtn(){
   const track=document.getElementById('admin-toggle-track');
   const lbl=document.getElementById('admin-toggle-lbl');
