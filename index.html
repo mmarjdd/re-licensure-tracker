@@ -988,14 +988,15 @@ window.doLogout=async()=>{isAdmin=false;$('admin-badge').style.display='none';aw
 // ── FIRESTORE ──
  async function loadFSData(){
     if(!curUser||!fbDb)return;
+    // Load user data and shared links with individual error handling
     try{
-      const[us,sl]=await Promise.all([
-        getDoc(doc(fbDb,'users',curUser.uid)),
-        getDoc(doc(fbDb,'shared','links'))
-      ]);
+      const us=await getDoc(doc(fbDb,'users',curUser.uid));
       if(us.exists()){const d=us.data();allChecks=d.checks||{};allLinks=d.links||{};customData=d.custom||{phases:[],rows:[]};}
-      if(sl.exists()){sharedLinks=sl.data().links||{};}
-    }catch(e){console.warn('FS load:',e);}
+    }catch(e){console.warn('FS user load:',e);}
+    try{
+      const sl=await getDoc(doc(fbDb,'shared','links'));
+      if(sl&&sl.exists()){sharedLinks=sl.data().links||{};}
+    }catch(e){console.warn('FS shared load:',e);}
   }
 async function saveFS(field,value){
   if(!curUser||!fbDb)return;
