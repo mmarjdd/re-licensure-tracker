@@ -1027,11 +1027,13 @@ function flashToast(){const t=$('toast');t.classList.add('show');setTimeout(()=>
 
 // ── SHEETS ──
 function extractId(r){r=(r||'').trim();const m=r.match(/\/d\/([a-zA-Z0-9_-]+)/);if(m)return m[1];if(/^[a-zA-Z0-9_-]{20,}$/.test(r))return r;return null;}
-function splitCSV(line){const r=[];let cur='',inq=false;for(let i=0;i<line.length;i++){if(line[i]==='"')inq=!inq;else if(line[i]===','&&!inq){r.push(cur);cur='';}else cur+=line[i];}r.push(cur);return r.map(s=>s.replace(/^"|"$/g,'').trim());}
+function splitCSV(line){const r=[];let cur='',inq=false;for(let i=0;i<line.length;i++){if(line[i]==='"')inq=!inq;else if(line[i]===','&&!inq){r.push(cur);cur='';}else cur+=line[i];}r.push(cur);return r.map(s=>s.replace(/^"|"$/g,'').replace(/\r/g,'').trim());}
 function parseRows(csv){
+  // Normalize line endings: remove \r for Windows CRLF compatibility
+  const normalized=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
   const rows=[];let cur='',inq=false;
-  for(let i=0;i<csv.length;i++){
-    const ch=csv[i];
+  for(let i=0;i<normalized.length;i++){
+    const ch=normalized[i];
     if(ch==='"'){inq=!inq;cur+=ch;}
     else if(ch==='\n'&&!inq){rows.push(cur);cur='';}
     else{cur+=ch;}
@@ -1039,7 +1041,7 @@ function parseRows(csv){
   if(cur.trim())rows.push(cur);
   const cleaned=rows.filter(l=>l.trim());
   if(!cleaned.length)return[];
-  // Detect if first row is a header by checking if it contains known header words
+  // Detect if first row is a header
   const firstRow=(cleaned[0]||'').toLowerCase();
   const isHeader=firstRow.includes('category')||firstRow.includes('question')||
     firstRow.includes('term')||firstRow.includes('definition')||
