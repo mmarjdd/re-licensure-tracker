@@ -1064,28 +1064,15 @@ window.fetchAll=async(verbose)=>{
     const base=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=`;
     const fetchSheet=async(name)=>{
       const encoded=encodeURIComponent(name);
-      // Primary: export URL (no row limit, most complete)
-      // Fallback: gviz (may truncate but works for smaller sheets)
-      const urls=[
-        `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&sheet=${encoded}`,
-        `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&sheet=${name}`,
-        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&range=A1:Z9999`,
-        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}`,
-      ];
-      for(const url of urls){
-        try{
-          const r=await fetch(url,{redirect:'follow'});
-          if(!r.ok)continue;
-          const txt=await r.text();
-          // Skip if HTML error page or login redirect
-          if(!txt.trim())continue;
-          if(txt.trim().startsWith('<!'))continue;
-          if(txt.trim().startsWith('<html'))continue;
-          if(txt.includes('accounts.google.com'))continue;
-          return txt;
-        }catch(e){continue;}
-      }
-      return '';
+      // gviz works for public sheets without auth, no real row limit
+      const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}`;
+      try{
+        const r=await fetch(url);
+        if(!r.ok)return '';
+        const txt=await r.text();
+        if(!txt.trim()||txt.trim().startsWith('<'))return '';
+        return txt;
+      }catch(e){return '';}
     };
     const[lt,tt,qt]=await Promise.all([fetchSheet('Laws'),fetchSheet('Terms'),fetchSheet('Questions')]);
     if(lt){const rows=parseRows(lt);if(rows.length)LAWS=rows;}
