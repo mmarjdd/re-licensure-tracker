@@ -1064,15 +1064,23 @@ window.fetchAll=async(verbose)=>{
     const base=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=`;
     const fetchSheet=async(name)=>{
       const encoded=encodeURIComponent(name);
-      // gviz works for public sheets without auth, no real row limit
-      const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}`;
-      try{
-        const r=await fetch(url);
-        if(!r.ok)return '';
-        const txt=await r.text();
-        if(!txt.trim()||txt.trim().startsWith('<'))return '';
-        return txt;
-      }catch(e){return '';}
+      // Cache-bust with timestamp so Google always returns fresh data
+      const ts=Date.now();
+      const urls=[
+        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&tq=select%20*&_=${ts}`,
+        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&_=${ts}`,
+        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}`,
+      ];
+      for(const url of urls){
+        try{
+          const r=await fetch(url,{cache:'no-store'});
+          if(!r.ok)continue;
+          const txt=await r.text();
+          if(!txt.trim()||txt.trim().startsWith('<'))continue;
+          return txt;
+        }catch(e){continue;}
+      }
+      return '';
     };
     const[lt,tt,qt]=await Promise.all([fetchSheet('Laws'),fetchSheet('Terms'),fetchSheet('Questions')]);
     if(lt){const rows=parseRows(lt);if(rows.length)LAWS=rows;}
