@@ -1062,27 +1062,37 @@ window.fetchAll=async(verbose)=>{
   if(verbose){$('sync-dot').className='sync-dot loading';$('sync-txt').textContent='Loading…';setSt('Fetching…',null);}
   try{
     const base=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=`;
-    const fetchSheet=async(name)=>{
+    const fetchSheet=async(name,gid=null)=>{
       const encoded=encodeURIComponent(name);
-      // Cache-bust with timestamp so Google always returns fresh data
       const ts=Date.now();
-      const urls=[
+      const urls=[];
+      // If GID provided, use it — most reliable, no row limit
+      if(gid!==null){
+        urls.push(`https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}&_=${ts}`);
+      }
+      // Fallbacks using sheet name
+      urls.push(
         `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&tq=select%20*&_=${ts}`,
         `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&_=${ts}`,
-        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}`,
-      ];
+      );
       for(const url of urls){
         try{
           const r=await fetch(url,{cache:'no-store'});
           if(!r.ok)continue;
           const txt=await r.text();
-          if(!txt.trim()||txt.trim().startsWith('<'))continue;
+          if(!txt.trim()||txt.trim().startsWith('<')||txt.includes('accounts.google.com'))continue;
           return txt;
         }catch(e){continue;}
       }
       return '';
     };
-    const[lt,tt,qt]=await Promise.all([fetchSheet('Laws'),fetchSheet('Terms'),fetchSheet('Questions')]);
+    // GIDs for reliable full-data fetch (no row limit)
+    const GIDS={Laws:0,Terms:967361332,Questions:1091218291};
+    const[lt,tt,qt]=await Promise.all([
+      fetchSheet('Laws',GIDS.Laws),
+      fetchSheet('Terms',GIDS.Terms),
+      fetchSheet('Questions',GIDS.Questions)
+    ]);
     if(lt){const rows=parseRows(lt);if(rows.length)LAWS=rows;}
     if(tt){const rows=parseRows(tt);if(rows.length)TERMS=rows;}
     if(qt){const rows=parseRows(qt);if(rows.length){examQs=parseExamQ(rows);lastExamQs=[];renderExamCats();}}
