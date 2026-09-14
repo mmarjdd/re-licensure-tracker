@@ -693,8 +693,8 @@ Row 1 in each tab = headers (skipped automatically)
         <div style="font-size:11px;color:var(--text-3);line-height:1.6;">When <strong>on</strong>: you can add links, phases, and lessons in the Study Tracker.<br>When <strong>off</strong>: clean study view — same as what students see.</div>
       </div>
       <div class="set-card">
-        <h3>Migrate Existing Links</h3>
-        <p>Copy all your existing resource links to the shared collection so all students can see them. Only needs to be done once.</p>
+        <h3>Migrate Existing Links to Shared</h3>
+        <p>Copy all your existing resource links so all students can see them. Only needs to be done once.</p>
         <button class="btn-sm" id="migrate-btn" onclick="migrateLinks()">Copy My Links to Shared</button>
         <div class="msg" id="migrate-msg" style="margin-top:8px;"></div>
       </div>
@@ -762,6 +762,11 @@ const SEED=[
 {id:"4.5",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"PD 1344 — NHA Writ of Execution under PD 957",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Empowers NHA (now DHSUD) to issue writ of execution to enforce decisions under PD 957; administrative enforcement for buyer complaints against developers"},
 {id:"4.6",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"Ministry Order No. 39 — Revised Rules and Standards for BP 220",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Implementing rules of BP 220; planning standards, design requirements, technical guidelines for economic/socialized housing; road lot and open space standards; more lenient standards than PD 957"},
 
+{id:"4.8",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"RA 10884 — Balanced Housing Development Program Amendments",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Amends Sections 3, 18, and 20 of RA 7279 (UDHA); subdivision developers must allocate at least 15% of project area or cost for socialized housing; condo developers at least 5%; tax incentives: income tax, CGT on raw land, VAT, transfer tax, donor's tax; 90-day processing for clearances; HLURB/DHSUD mandated to issue IRR"},
+{id:"4.9",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"HLURB MC 09-2018 — Guidelines on Balanced Housing Compliance under RA 10884",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Implements Revised IRR of Sec. 18, RA 7279 as amended by RA 10884; modes of compliance: development of socialized housing, joint-venture with LGU or housing agencies; HLURB approval within 10 working days; joint-venture annotated on title; compliance project must be completed within 1 year from LTS issuance"},
+{id:"4.10",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"DHSUD JMC 2023-003 — Revised Price Ceiling for Socialized Housing",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Signed October 19, 2023 by DHSUD and NEDA Secretaries; socialized subdivision ceiling: P850,000 (28 sqm min.); condo ceilings tiered by floor count: 4-story P933,320-1,145,438; 5-9 story up to P1,227,273; 10+ story up to P1,620,000; supersedes 2018 price caps; basis for determining which projects qualify as socialized housing under RA 7279/RA 10884"},
+{id:"4.11",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"DHSUD MC 2023-004 — Standard Application Form for Socialized Housing Accreditation",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Issued January 31, 2023; prescribes uniform procedure and standard application form for accreditation and approval of socialized housing projects as compliance to Balanced Housing Development Program under RA 10884; standardizes requirements across all DHSUD regional offices"},
+{id:"4.12",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"RA 9904 + Board Reso 877 — Magna Carta for Homeowners Associations",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Rights and obligations of homeowners and HOAs; HOA registration with DHSUD; dues, assessments, and voting rights; grounds for dissolution; Board Resolution 877 as IRR; relevant to subdivision and condo management disputes"},
 {id:"5.1",table:"both",phase:"Phase 5 — Agrarian & Protected Land Laws",law:"PD 27 — Emancipation of Tenants",tags:["both","hy"],group:"REB: General/RE Laws & Taxation · REA: Land Mgmt & Real Property Laws",guide:"Decreed October 21 1972; transferred ownership of rice and corn lands to tenant-farmers; basis of Operation Land Transfer; landholding ceiling of 7 hectares retained by landowner; emancipation patents (EPs) issued to farmer-beneficiaries; predecessor to CARL (RA 6657)"},
 {id:"5.2",table:"both",phase:"Phase 5 — Agrarian & Protected Land Laws",law:"RA 6657 + RA 9700 — CARL & CARPER",tags:["both","hy"],group:"REB: RE Laws & Taxation · REA: Land Mgmt",guide:"Agricultural land coverage and exclusions; retention limits; farmer-beneficiary rights; restrictions on transfer"},
 {id:"5.3",table:"both",phase:"Phase 5 — Agrarian & Protected Land Laws",law:"PD 1067 — Water Code",tags:["both"],group:"REA: Land Mgmt",guide:"State ownership of all waters; easements — 3m creek, 20m river urban, 40m river agricultural; riparian rights"},
@@ -794,6 +799,7 @@ const SEED=[
 {id:"7.7",table:"both",phase:"Phase 7 — Taxation",law:"EO 648 — Rules on Valuation of Properties for Taxation",tags:["both"],group:"REB: General/RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Local appraisal/assessment guidance; computation and methodology used by LGU assessors ahead of the RA 12001/MRPAAO framework"},
 {id:"7.8",table:"both",phase:"Phase 7 — Taxation",law:"RA 9184 — Government Procurement Reform Act",tags:["both"],group:"REB: General/RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Governs procurement of goods, services, and infrastructure by government agencies, including valuation of government properties/projects; BAC process; relevant to REA government project appraisals and DPWH-related scenarios"},
 
+{id:"7.8",table:"both",phase:"Phase 7 — Taxation",law:"RA 11569 — Estate Tax Amnesty Extension Act",tags:["both"],group:"REB: RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Extends and strengthens estate tax amnesty under RA 11213; allows heirs to settle unpaid estate taxes at 6% flat rate without surcharges, penalties, and interest; covers estates of decedents who died on or before December 31, 2021; relevant to brokers and appraisers dealing with inherited properties and estate sales"},
 {id:"8.1",table:"both",phase:"Phase 8 — Real Estate Finance & Economics",law:"Real Estate Finance & Economics",tags:["both","hy"],group:"REB: Professional Practice · REA: Fundamentals",guide:"Time value of money; interest computation; mortgage types; real estate market cycles; supply and demand as value drivers"},
 
 {id:"9.1",table:"both",phase:"Phase 9 — Land Management System",law:"Land Management System & DENR",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"DENR land classification system; cadastral survey process; LRA and Registry of Deeds functions; land records management; tax mapping and assessment rolls; LGU land records roles"},
@@ -803,6 +809,8 @@ const SEED=[
 
 {id:"11.1",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law",tags:["reb","hy"],group:"Special & Technical Knowledge",guide:"Grace periods: 2+ years paid = grace period + CSV refund; less than 2 years = grace period only; 60-day notarial notice"},
 
+{id:"B11.2",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Contracts & Sales (RE Applications)",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Essential elements of valid contracts; stages: negotiation, perfection, consummation; contract of sale vs. contract to sell; double sale rule Art. 1544; option contracts; pacto de retro max 10 years; rescission and annulment of sale"},
+{id:"B11.3",table:"both",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Lease & Mortgage Provisions",tags:["both"],group:"REB: Special & Technical Knowledge · REA: Fundamentals",guide:"Rights and obligations of lessor and lessee; sublease; termination; real mortgage requirements and registration; extrajudicial foreclosure under Act 3135; right of redemption 1 year from registration of sale; chattel mortgage vs. real estate mortgage"},
 {id:"12.1",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"PVS 3rd Ed. 2025",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"PVS framework; bases of value; scope of work; appraiser independence; contingent fee prohibition; certification statement"},
 {id:"12.2",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"International Valuation Standards (IVS)",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"IVS general standards; how IVS is adopted in PVS 3rd Edition; IVS definitions of market value"},
 
@@ -838,7 +846,10 @@ const SEED=[
 {id:"22.3",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Appraisal Report Writing",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Structure, content, and certification requirements of a formal appraisal report"},
 {id:"22.4",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Appraisal of Machinery and Equipment",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Approaches for valuing machinery and equipment distinct from real property"},
 {id:"22.5",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Current Events",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Real estate market conditions, recent legislation, and industry developments"},
-  
+  ,
+{id:"P23.1",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List; distinction between owning land vs. owning shares in land-owning corp; foreigners can invest in Philippine businesses but cannot own land directly; relevant to corporate land ownership due diligence"},
+{id:"P23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 4726 — Condominium Act (Foreign Ownership Provisions)",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt & Real Property Laws",guide:"Up to 40% of total units in a condo project may be foreign-owned; master deed must reflect this limitation; HLURB/DHSUD monitors foreign ownership levels; foreign nationals can own condo units but not the land; relevant to marketing of condo projects to foreign buyers and valuation of foreign-owned units"},
+{id:"P23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"1987 Constitution Art. XII — Nationality Restrictions on Land",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"Only Filipino citizens and corporations with at least 60% Filipino equity may own private land; natural resources owned by the State; public utility ownership 60-40 rule; former natural-born citizens may acquire up to 5,000 sqm urban or 3 hectares rural; basis for all land ownership restrictions in Philippine law"}
 ];
 </script>
 
@@ -858,7 +869,7 @@ let isAdmin=false,isSignup=false;
 // tracker
 let tTab='all',collapsed={},customData={phases:[],rows:[]},allChecks={},allLinks={},addingLinkId=null,lessonPhase=null;
 // study
-let LAWS=[],TERMS=[],dataReady=false;
+  let LAWS=[],TERMS=[],dataReady=false;
 let sharedLinks={};
 let fcFilter='terms',fcDeck=[],fcIdx=0,fcFlipped=false;
 let sfFilter='all';
@@ -989,13 +1000,13 @@ window.doLogout=async()=>{isAdmin=false;$('admin-badge').style.display='none';aw
  async function loadFSData(){
     if(!curUser||!fbDb)return;
     try{
-      const us=await getDoc(doc(fbDb,'users',curUser.uid));
+      const[us,sl]=await Promise.all([
+        getDoc(doc(fbDb,'users',curUser.uid)),
+        getDoc(doc(fbDb,'shared','links'))
+      ]);
       if(us.exists()){const d=us.data();allChecks=d.checks||{};allLinks=d.links||{};customData=d.custom||{phases:[],rows:[]};}
-    }catch(e){console.warn('FS user load:',e);}
-    try{
-      const sl=await getDoc(doc(fbDb,'shared','links'));
-      if(sl&&sl.exists()){sharedLinks=sl.data().links||{};}
-    }catch(e){console.warn('FS shared load:',e);}
+      if(sl.exists()){sharedLinks=sl.data().links||{};}
+    }catch(e){console.warn('FS load:',e);}
   }
 async function saveFS(field,value){
   if(!curUser||!fbDb)return;
@@ -1029,7 +1040,6 @@ function flashToast(){const t=$('toast');t.classList.add('show');setTimeout(()=>
 function extractId(r){r=(r||'').trim();const m=r.match(/\/d\/([a-zA-Z0-9_-]+)/);if(m)return m[1];if(/^[a-zA-Z0-9_-]{20,}$/.test(r))return r;return null;}
 function splitCSV(line){const r=[];let cur='',inq=false;for(let i=0;i<line.length;i++){if(line[i]==='"')inq=!inq;else if(line[i]===','&&!inq){r.push(cur);cur='';}else cur+=line[i];}r.push(cur);return r.map(s=>s.replace(/^"|"$/g,'').replace(/\r/g,'').trim());}
 function parseRows(csv){
-  // Normalize line endings: remove \r for Windows CRLF compatibility
   const normalized=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
   const rows=[];let cur='',inq=false;
   for(let i=0;i<normalized.length;i++){
@@ -1041,7 +1051,6 @@ function parseRows(csv){
   if(cur.trim())rows.push(cur);
   const cleaned=rows.filter(l=>l.trim());
   if(!cleaned.length)return[];
-  // Detect if first row is a header
   const firstRow=(cleaned[0]||'').toLowerCase();
   const isHeader=firstRow.includes('category')||firstRow.includes('question')||
     firstRow.includes('term')||firstRow.includes('definition')||
@@ -1066,11 +1075,9 @@ window.fetchAll=async(verbose)=>{
       const encoded=encodeURIComponent(name);
       const ts=Date.now();
       const urls=[];
-      // If GID provided, use it — most reliable, no row limit
       if(gid!==null){
         urls.push(`https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}&_=${ts}`);
       }
-      // Fallbacks using sheet name
       urls.push(
         `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&tq=select%20*&_=${ts}`,
         `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&_=${ts}`,
@@ -1086,7 +1093,6 @@ window.fetchAll=async(verbose)=>{
       }
       return '';
     };
-    // GIDs for reliable full-data fetch (no row limit)
     const GIDS={Laws:0,Terms:967361332,Questions:1091218291};
     const[lt,tt,qt]=await Promise.all([
       fetchSheet('Laws',GIDS.Laws),
@@ -1210,8 +1216,8 @@ window.renderTracker=()=>{
         <thead><tr><th style="width:30px">✓</th><th style="width:22px">#</th><th style="min-width:140px">Topic / Law</th><th class="col-grp" style="min-width:100px">Subject Group</th><th style="min-width:200px">Key Coverage</th><th style="min-width:130px">Resources</th></tr></thead>
         <tbody>${rows.map((row,ri)=>{
           const done=!!myChks()[row.id];
-          const rowLinks=sharedLinks[row.id]||[];
           const tagHtml=row.tags.map(t=>{const s=TAG_S[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
+          const rowLinks=sharedLinks[row.id]||[];
           const linksHtml=rowLinks.map((lk,idx)=>`<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;"><a href="${lk.url}" target="_blank" class="res-link" style="flex:1;"><span>📂</span><span>${lk.title}</span></a>${isAdmin?`<button onclick="delLink('${row.id}',${idx})" style="flex-shrink:0;font-size:11px;background:var(--red-bg);color:var(--red);border:1px solid #f5c0c0;border-radius:4px;width:18px;height:18px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;">×</button>`:''}
           </div>`).join('');
           const addBtn=isAdmin?(addingLinkId===row.id?
