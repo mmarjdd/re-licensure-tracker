@@ -731,6 +731,14 @@ const TAG_S={
   custom:{bg:"#fef0ff",cl:"#6b0080",bd:"#d48ae8"},
 };
 const RING_CLR={all:"#98777b",both:"#5a9a3a",rea:"#6b5fd4",reb:"#2d7cc4"};
+// Expose to module script
+window.SEED=SEED;
+window.ADMIN_PW=ADMIN_PW;
+window.TAG_S=TAG_S;
+window.RING_CLR=RING_CLR;
+window.CFG_KEY=CFG_KEY;
+window.SID_KEY=SID_KEY;
+window.OWNER_EMAIL=OWNER_EMAIL;
 const SEED=[
 
   {id:"A",table:"both",phase:"Phase 0 — Civil Code Foundations",law:"Civil Code — Property & Ownership",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Movable vs. immovable property; modes of acquiring ownership; kinds of property"},
@@ -864,7 +872,7 @@ import{getFirestore,doc,getDoc,setDoc,updateDoc}from"https://www.gstatic.com/fir
 const $=id=>document.getElementById(id);
 const show=id=>$(id).classList.add('on');
 const hide=id=>$(id).classList.remove('on');
-const getCfg=()=>{try{return JSON.parse(localStorage.getItem(CFG_KEY)||'null');}catch{return null;}};
+const getCfg=()=>{try{return JSON.parse(localStorage.getItem((window.CFG_KEY||'rela_cfg_v2'))||'null');}catch{return null;}};
 
 // ── STATE ──
 let fbAuth,fbDb,curUser;
@@ -902,11 +910,11 @@ let examQs=[],examAns=[],examCurQ=0,examN=100,examDone=false,lastExamQs=[];
         const h=new Date().getHours();
         $('t-greet').textContent=`Good ${h<12?'morning':h<18?'afternoon':'evening'}, ${(user.displayName||user.email).split(' ')[0].split('@')[0]}`;
         await loadFSData();
-        const sid=localStorage.getItem(SID_KEY)||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
+        const sid=localStorage.getItem((window.SID_KEY||'rela_sid'))||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
         $('sheet-inp').value=sid;
-        localStorage.setItem(SID_KEY,sid);
+        localStorage.setItem((window.SID_KEY||'rela_sid'),sid);
         // Owner gets Settings tab + auto admin
-        if(user.email===OWNER_EMAIL){
+        if(user.email===(window.OWNER_EMAIL||'marymarjoriedumlao@gmail.com')){
           $('settings-tab').style.display='';
           $('admin-badge').style.display='';
           isAdmin=true;
@@ -928,9 +936,9 @@ window.saveConfig=()=>{
   const keys=['apiKey','authDomain','projectId','storageBucket','messagingSenderId','appId'];
   const cfg={};
   for(const k of keys){const v=$('cfg-'+k).value.trim();if(!v){$('cfg-err').textContent='All 6 fields required.';return;}cfg[k]=v;}
-  localStorage.setItem(CFG_KEY,JSON.stringify(cfg));location.reload();
+  localStorage.setItem((window.CFG_KEY||'rela_cfg_v2'),JSON.stringify(cfg));location.reload();
 };
-window.resetConfig=()=>{if(confirm('Reset Firebase config? You will be signed out.')){localStorage.removeItem(CFG_KEY);location.reload();}};
+window.resetConfig=()=>{if(confirm('Reset Firebase config? You will be signed out.')){localStorage.removeItem((window.CFG_KEY||'rela_cfg_v2'));location.reload();}};
 
 // ── AUTH ──
 window.showForgot=()=>{
@@ -1066,11 +1074,11 @@ function parseRows(csv){
 window.saveAndFetch=async()=>{
   const id=extractId($('sheet-inp').value);
   if(!id){setSt('Invalid Sheet ID.',false);return;}
-  localStorage.setItem(SID_KEY,id);$('sheet-inp').value=id;
+  localStorage.setItem((window.SID_KEY||'rela_sid'),id);$('sheet-inp').value=id;
   await fetchAll(true);
 };
 window.fetchAll=async(verbose)=>{
-  const id=localStorage.getItem(SID_KEY)||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
+  const id=localStorage.getItem((window.SID_KEY||'rela_sid'))||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
   if(!id)return;
   if(verbose){$('sync-dot').className='sync-dot loading';$('sync-txt').textContent='Loading…';setSt('Fetching…',null);}
   try{
@@ -1147,12 +1155,12 @@ window.closeModal=id=>{$(id).classList.remove('open');};
 // ── ADMIN ──
 window.showPinBox=()=>{$('pin-box').style.display='block';$('pin-inp').value='';$('pin-err').textContent='';};
 window.checkPin=()=>{
-  if($('pin-inp').value===ADMIN_PW){isAdmin=true;$('admin-badge').style.display='';$('pin-box').style.display='none';renderTracker();flashToast();}
+  if($('pin-inp').value===(window.ADMIN_PW||'marjie')){isAdmin=true;$('admin-badge').style.display='';$('pin-box').style.display='none';renderTracker();flashToast();}
   else{$('pin-err').textContent='Incorrect password.';}
 };
 window.exitAdmin=()=>{
   // For owner, use the toggle in Settings instead
-  if(curUser&&curUser.email===OWNER_EMAIL){ updateAdminToggleBtn(); return; }
+  if(curUser&&curUser.email===(window.OWNER_EMAIL||'marymarjoriedumlao@gmail.com')){ updateAdminToggleBtn(); return; }
   isAdmin=false;$('admin-badge').style.display='none';renderTracker();
 };
 window.onAddPhaseClick=()=>{if(!isAdmin){showPinBox();return;}$('phase-modal').classList.add('open');$('ap-title').value='';};
@@ -1169,7 +1177,7 @@ window.saveLessonModal=()=>{
 };
 
 // ── TRACKER ──
-const allRows=()=>[...SEED,...customData.rows];
+const allRows=()=>[...(window.SEED||[]),...customData.rows];
 const myChks=()=>allChecks[curUser?.uid]||{};
 function getStats(){
   const done={both:0,rea:0,reb:0,all:0},total={both:0,rea:0,reb:0,all:0};
@@ -1180,7 +1188,7 @@ const pct=(d,t)=>t?Math.round(d/t*100):0;
 function renderProgress(){
   const st=getStats();
   $('rings-row').innerHTML=[{key:'all',label:'Overall'},{key:'both',label:'Both'},{key:'rea',label:'REA Only'},{key:'reb',label:'REB Only'}].map(c=>{
-    const p=pct(st.done[c.key],st.total[c.key]),clr=RING_CLR[c.key];
+    const p=pct(st.done[c.key],st.total[c.key]),clr=(window.RING_CLR||{})[c.key]||'#98777b';
     const circ=2*Math.PI*22,offset=circ-(p/100)*circ;
     return`<div class="ring-card"><div class="ring-wrap"><svg width="50" height="50" style="transform:rotate(-90deg)"><circle cx="25" cy="25" r="22" fill="none" stroke="#f0e8e8" stroke-width="5"/><circle cx="25" cy="25" r="22" fill="none" stroke="${clr}" stroke-width="5" stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round" style="transition:stroke-dashoffset .5s"/></svg><div class="ring-pct" style="color:${clr}">${p}%</div></div><div><div class="ring-name">${c.label}</div><div class="ring-sub">${st.done[c.key]||0}/${st.total[c.key]||0}</div></div></div>`;
   }).join('');
@@ -1218,7 +1226,7 @@ window.renderTracker=()=>{
         <thead><tr><th style="width:30px">✓</th><th style="width:22px">#</th><th style="min-width:140px">Topic / Law</th><th class="col-grp" style="min-width:100px">Subject Group</th><th style="min-width:200px">Key Coverage</th><th style="min-width:130px">Resources</th></tr></thead>
         <tbody>${rows.map((row,ri)=>{
           const done=!!myChks()[row.id];
-          const tagHtml=row.tags.map(t=>{const s=TAG_S[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
+          const tagHtml=row.tags.map(t=>{const s=(window.TAG_S||{})[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
           const rowLinks=sharedLinks[row.id]||[];
           const linksHtml=rowLinks.map((lk,idx)=>`<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;"><a href="${lk.url}" target="_blank" class="res-link" style="flex:1;"><span>📂</span><span>${lk.title}</span></a>${isAdmin?`<button onclick="delLink('${row.id}',${idx})" style="flex-shrink:0;font-size:11px;background:var(--red-bg);color:var(--red);border:1px solid #f5c0c0;border-radius:4px;width:18px;height:18px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;">×</button>`:''}
           </div>`).join('');
