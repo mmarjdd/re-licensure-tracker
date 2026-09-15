@@ -1211,7 +1211,7 @@ window.renderTracker=()=>{
   if(!Object.keys(grouped).length){pl.innerHTML='<div style="text-align:center;padding:2rem;color:var(--text-3);font-size:13px;">No topics match your search.</div>';return;}
   pl.innerHTML=Object.entries(grouped).map(([phase,rows])=>{
     const done=rows.filter(r=>myChks()[r.id]).length;
-    const isOpen=!!collapsed[phase];
+    const isOpen=!collapsed[phase];
     const isCust=customData.phases.some(p=>p.title===phase);
     const phaseKey=encodeURIComponent(phase);
     return`<div class="phase-block">
