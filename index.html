@@ -26,6 +26,14 @@ html{font-size:14px;}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
 .screen{display:none;min-height:100vh;}
 .screen.on{display:flex;flex-direction:column;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+#s-auth.on .auth-box{animation:fadeUp .45s cubic-bezier(.4,0,.2,1) both;}
+#s-app.on .app-header{animation:fadeIn .3s ease both;}
+#s-app.on .app-nav{animation:fadeUp .35s .05s cubic-bezier(.4,0,.2,1) both;}
+#s-app.on .app-body{animation:fadeUp .4s .1s cubic-bezier(.4,0,.2,1) both;}
+#s-loader.on .ld-logo{animation:fadeUp .4s cubic-bezier(.4,0,.2,1) both;}
+#s-loader.on .spinner{animation:fadeUp .4s .15s cubic-bezier(.4,0,.2,1) both;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
   @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
   #s-auth.on .auth-box{animation:fadeUp .45s cubic-bezier(.4,0,.2,1) both;}
@@ -408,6 +416,19 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(
     <div class="auth-toggle" style="margin-top:6px;" id="forgot-row">
       <button class="btn-link" onclick="showForgot()" style="color:var(--text-3);font-size:11px;">Forgot password?</button>
     </div>
+    <div id="forgot-panel" style="display:none;margin-top:14px;background:var(--cream-dk);border:1px solid var(--border);border-radius:var(--r);padding:14px;">
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px;">Reset Password</div>
+      <div style="font-size:12px;color:var(--text-2);margin-bottom:10px;line-height:1.5;">Enter your email and we'll send you a reset link.</div>
+      <input type="email" id="forgot-email" placeholder="juan@email.com" style="width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:var(--rsm);font-family:inherit;font-size:13px;color:var(--text);background:#fff;outline:none;margin-bottom:8px;" autocomplete="email">
+      <div class="msg" id="forgot-msg" style="margin-bottom:8px;min-height:16px;"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-full" onclick="doForgot()" style="padding:9px;">Send Reset Link</button>
+        <button onclick="hideForgot()" style="padding:9px 14px;border:1px solid var(--border);border-radius:var(--rsm);background:#fff;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap;">Cancel</button>
+      </div>
+    </div>
+    <div class="auth-toggle" style="margin-top:6px;" id="forgot-row">
+      <button class="btn-link" onclick="showForgot()" style="color:var(--text-3);font-size:11px;">Forgot password?</button>
+    </div>
 
     <!-- FORGOT PASSWORD PANEL -->
     <div id="forgot-panel" style="display:none;margin-top:14px;background:var(--cream-dk);border:1px solid var(--border);border-radius:var(--r);padding:14px;">
@@ -762,10 +783,10 @@ const SEED=[
 {id:"4.5",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"PD 1344 — NHA Writ of Execution under PD 957",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Empowers NHA (now DHSUD) to issue writ of execution to enforce decisions under PD 957; administrative enforcement for buyer complaints against developers"},
 {id:"4.6",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"Ministry Order No. 39 — Revised Rules and Standards for BP 220",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Implementing rules of BP 220; planning standards, design requirements, technical guidelines for economic/socialized housing; road lot and open space standards; more lenient standards than PD 957"},
 
-{id:"4.7",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"RA 10884 — Balanced Housing Development Program Amendments",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Amends RA 7279; subdivision developers must allocate 15% of project area or cost for socialized housing; condo developers 5%; tax incentives: income tax, CGT on raw land, VAT, transfer tax, donor's tax; 90-day processing for clearances; HLURB/DHSUD mandated to issue IRR"},
-{id:"4.8",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"HLURB MC 09-2018 — Guidelines on Balanced Housing Compliance under RA 10884",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"IRR of Sec. 18 RA 7279 as amended by RA 10884; modes of compliance: socialized housing development, joint-venture with LGU or housing agencies; HLURB approval within 10 working days; joint-venture annotated on title; compliance project must be completed within 1 year from LTS issuance"},
-{id:"4.9",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"DHSUD JMC 2023-003 — Revised Price Ceiling for Socialized Housing",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Signed Oct 19 2023 by DHSUD and NEDA Secretaries; socialized subdivision ceiling P850,000 (28 sqm min.); condo ceilings tiered by floor count: 4-story P933,320-1,145,438; 5-9 story up to P1,227,273; 10+ story up to P1,620,000; supersedes 2018 price caps; basis for qualifying projects as socialized housing under RA 7279 and RA 10884"},
-{id:"4.10",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"DHSUD MC 2023-004 — Standard Application Form for Socialized Housing Accreditation",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Issued Jan 31 2023; prescribes uniform procedure and standard application form for accreditation and approval of socialized housing compliance projects under Balanced Housing Development Program per RA 10884; standardizes requirements across all DHSUD regional offices"},
+{id:"4.7",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"RA 10884 — Balanced Housing Development Program Amendments",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Amends RA 7279; subdivision developers must allocate 15% of project area or cost for socialized housing; condo developers 5%; tax incentives; 90-day processing for clearances; HLURB/DHSUD mandated to issue IRR"},
+{id:"4.8",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"HLURB MC 09-2018 — Guidelines on Balanced Housing Compliance under RA 10884",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"IRR of Sec. 18 RA 7279 as amended by RA 10884; modes of compliance: socialized housing development, joint-venture with LGU or housing agencies; HLURB approval within 10 working days; compliance project completed within 1 year from LTS"},
+{id:"4.9",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"DHSUD JMC 2023-003 — Revised Price Ceiling for Socialized Housing",tags:["both","hy"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Signed Oct 19 2023; socialized subdivision ceiling P850,000 (28 sqm min.); condo tiered: 4-story P933,320-1,145,438; 5-9 story P1,227,273; 10+ story P1,620,000; supersedes 2018 price caps"},
+{id:"4.10",table:"both",phase:"Phase 4 — Real Estate Development Laws",law:"DHSUD MC 2023-004 — Standard Application Form for Socialized Housing Accreditation",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Issued Jan 31 2023; uniform procedure and standard application form for accreditation of socialized housing compliance projects under RA 10884; standardizes requirements across DHSUD regional offices"},
 {id:"5.1",table:"both",phase:"Phase 5 — Agrarian & Protected Land Laws",law:"PD 27 — Emancipation of Tenants",tags:["both","hy"],group:"REB: General/RE Laws & Taxation · REA: Land Mgmt & Real Property Laws",guide:"Decreed October 21 1972; transferred ownership of rice and corn lands to tenant-farmers; basis of Operation Land Transfer; landholding ceiling of 7 hectares retained by landowner; emancipation patents (EPs) issued to farmer-beneficiaries; predecessor to CARL (RA 6657)"},
 {id:"5.2",table:"both",phase:"Phase 5 — Agrarian & Protected Land Laws",law:"RA 6657 + RA 9700 — CARL & CARPER",tags:["both","hy"],group:"REB: RE Laws & Taxation · REA: Land Mgmt",guide:"Agricultural land coverage and exclusions; retention limits; farmer-beneficiary rights; restrictions on transfer"},
 {id:"5.3",table:"both",phase:"Phase 5 — Agrarian & Protected Land Laws",law:"PD 1067 — Water Code",tags:["both"],group:"REA: Land Mgmt",guide:"State ownership of all waters; easements — 3m creek, 20m river urban, 40m river agricultural; riparian rights"},
@@ -798,22 +819,22 @@ const SEED=[
 {id:"7.7",table:"both",phase:"Phase 7 — Taxation",law:"EO 648 — Rules on Valuation of Properties for Taxation",tags:["both"],group:"REB: General/RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Local appraisal/assessment guidance; computation and methodology used by LGU assessors ahead of the RA 12001/MRPAAO framework"},
 {id:"7.8",table:"both",phase:"Phase 7 — Taxation",law:"RA 9184 — Government Procurement Reform Act",tags:["both"],group:"REB: General/RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Governs procurement of goods, services, and infrastructure by government agencies, including valuation of government properties/projects; BAC process; relevant to REA government project appraisals and DPWH-related scenarios"},
 
-{id:"7.9",table:"both",phase:"Phase 7 — Taxation",law:"RA 11569 — Estate Tax Amnesty Extension Act",tags:["both"],group:"REB: RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Extends and strengthens estate tax amnesty under RA 11213; covers estates of decedents who died on or before December 31 2021; settlement at 6% flat rate without surcharges, penalties, and interest; relevant to brokers and appraisers dealing with inherited properties and estate sales"},
+{id:"7.9",table:"both",phase:"Phase 7 — Taxation",law:"RA 11569 — Estate Tax Amnesty Extension Act",tags:["both"],group:"REB: RE Laws & Taxation · REA: Govt Assessment & Taxation",guide:"Extends estate tax amnesty under RA 11213; covers estates of decedents who died on or before Dec 31 2021; 6% flat rate without surcharges and penalties; relevant to brokers and appraisers dealing with inherited properties"},
 {id:"8.1",table:"both",phase:"Phase 8 — Real Estate Finance & Economics",law:"Real Estate Finance & Economics",tags:["both","hy"],group:"REB: Professional Practice · REA: Fundamentals",guide:"Time value of money; interest computation; mortgage types; real estate market cycles; supply and demand as value drivers"},
 
 {id:"9.1",table:"both",phase:"Phase 9 — Land Management System",law:"Land Management System & DENR",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"DENR land classification system; cadastral survey process; LRA and Registry of Deeds functions; land records management; tax mapping and assessment rolls; LGU land records roles"},
 {id:"9.2",table:"both",phase:"Phase 9 — Land Management System",law:"DAO 2007-29 — Manual of Land Survey Procedures",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"DENR administrative order governing land surveys; cadastral, isolated, and subdivision surveys; survey plan requirements; LRA approval process; relevance to lot area verification and title preparation"},
 
-{id:"9.3",table:"rea",phase:"Phase 9 — Land Management System",law:"RA 12001 — RPVARA (Land Mgmt & Valuation Context)",tags:["rea","hy"],group:"REA: Land Mgmt & Real Property Laws",guide:"BLGF develops uniform valuation standards conforming to IVS; market value basis for all government transactions; SMV general revision every 3 years; BLGF maintains roster of PRC-licensed appraisers and assessors; legal basis for PVS compliance in government appraisals; signed June 2024"},
+{id:"9.3",table:"rea",phase:"Phase 9 — Land Management System",law:"RA 12001 — RPVARA (Land Mgmt & Valuation Context)",tags:["rea","hy"],group:"REA: Land Mgmt & Real Property Laws",guide:"BLGF develops uniform valuation standards conforming to IVS; market value basis for all government transactions; SMV general revision every 3 years; BLGF maintains PRC-licensed appraisers roster; legal basis for PVS compliance; signed June 2024"},
 {id:"10.1",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Fundamentals of Real Estate Principles & Practices",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Economic principles: anticipation, substitution, conformity, contribution, progression, regression, supply and demand, competition, balance, change; for REB: pricing and transaction decisions; for REA: approach selection and value conclusion"},
 
-{id:"10.2",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Economic Principles of Real Estate Value",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Anticipation; substitution; conformity; contribution; progression and regression; supply and demand; competition; balance; change; plottage and assemblage; highest and best use as foundation of all appraisal approaches; applied in approach selection and value conclusion"},
-{id:"10.3",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Real Property Concepts & Classifications",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Real vs personal property; fixtures MARIA test: method adaptability relationship intention agreement; air rights; subsurface rights; riparian rights; bundle of rights: use enjoy exclude dispose possess; freehold vs leasehold estates; appurtenance"},
+{id:"10.2",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Economic Principles of Real Estate Value",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Anticipation; substitution; conformity; contribution; progression and regression; supply and demand; competition; balance; change; plottage and assemblage; highest and best use as foundation of all appraisal approaches"},
+{id:"10.3",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Real Property Concepts & Classifications",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Real vs personal property; fixtures MARIA test; air rights; subsurface rights; riparian rights; bundle of rights: use enjoy exclude dispose possess; freehold vs leasehold estates; appurtenance"},
 {id:"11.1",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law",tags:["reb","hy"],group:"Special & Technical Knowledge",guide:"Grace periods: 2+ years paid = grace period + CSV refund; less than 2 years = grace period only; 60-day notarial notice"},
 
-{id:"B11.2",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Contract of Sale vs Contract to Sell",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Essential elements: consent, object, price; stages: negotiation, perfection, consummation; contract of sale vs contract to sell (ownership reserved until full payment); double sale Art. 1544: registered buyer wins; option contracts; pacto de retro right of repurchase max 10 years; rescission and annulment of sale"},
-{id:"B11.3",table:"both",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Lease & Real Mortgage Provisions",tags:["both"],group:"REB: Special & Technical Knowledge · REA: Fundamentals",guide:"Rights and obligations of lessor and lessee; sublease restrictions; termination grounds; real mortgage requirements and registration; extrajudicial foreclosure under Act 3135; right of redemption 1 year from registration of sale; chattel mortgage vs real estate mortgage; relevant to income approach and encumbrance verification in appraisal"},
-{id:"B11.4",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law (Realty Installment Buyer Protection Act)",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Paid 2+ years: grace period 1 month per year paid plus CSV refund 50% plus 5% per year beyond 5 years max 90%; paid less than 2 years: grace period only 60 days; 60-day notarial cancellation notice required; applies to residential real property on installment"},
+{id:"B11.2",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Contract of Sale vs Contract to Sell",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Essential elements; stages: negotiation, perfection, consummation; contract of sale vs contract to sell; double sale Art. 1544; option contracts; pacto de retro max 10 years; rescission and annulment of sale"},
+{id:"B11.3",table:"both",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Lease & Real Mortgage Provisions",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Rights and obligations of lessor and lessee; sublease; real mortgage requirements and registration; extrajudicial foreclosure Act 3135; right of redemption 1 year from registration; chattel vs real estate mortgage"},
+{id:"B11.4",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law (Realty Installment Buyer Protection Act)",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Paid 2+ years: grace period 1 month per year paid plus CSV refund 50% plus 5% per year beyond 5 years max 90%; paid less than 2 years: grace period only; 60-day notarial cancellation notice"},
 {id:"12.1",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"PVS 3rd Ed. 2025",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"PVS framework; bases of value; scope of work; appraiser independence; contingent fee prohibition; certification statement"},
 {id:"12.2",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"International Valuation Standards (IVS)",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"IVS general standards; how IVS is adopted in PVS 3rd Edition; IVS definitions of market value"},
 
@@ -850,18 +871,10 @@ const SEED=[
 {id:"22.4",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Appraisal of Machinery and Equipment",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Approaches for valuing machinery and equipment distinct from real property"},
 {id:"22.5",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Current Events",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Real estate market conditions, recent legislation, and industry developments"},
   ,
-{id:"P23.1",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"Foreign Ownership Rules — Land & Real Property",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"Only Filipino citizens and corporations with 60% Filipino equity may own land; former natural-born citizens: up to 5,000 sqm urban or 3 hectares rural land; foreigners may lease land up to 50 years renewable 25 years under RA 7652; condominium units up to 40% foreign ownership per project under RA 4726; foreign nationals cannot own land directly"},
-{id:"P23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List restricts foreign participation in certain industries; distinction between owning land directly vs owning shares in land-owning corporation; relevant to corporate land ownership due diligence and appraisal of land under corporate ownership"},
-{id:"P23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 9856 — REIT Act (Foreign Investment Angle)",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Real Estate Investment Trusts allow foreign investors to invest in Philippine real estate through publicly listed shares; 40% foreign ownership cap still applies; income-producing real estate as investment vehicle; requires independent appraisal of REIT assets at least annually; relevant to commercial property valuation and investment analysis"}
+{id:"P23.1",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"Foreign Ownership Rules — Land & Real Property",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"Only Filipino citizens and corporations with 60% Filipino equity may own land; former natural-born citizens: up to 5,000 sqm urban or 3 hectares rural; foreigners may lease land up to 50 years renewable 25 years; condo units up to 40% foreign ownership per project under RA 4726"},
+{id:"P23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List; distinction between owning land directly vs owning shares in land-owning corporation; relevant to corporate land ownership due diligence"},
+{id:"P23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 9856 — REIT Act",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Real Estate Investment Trusts allow foreign investors to invest in Philippine real estate through publicly listed shares; 40% foreign ownership cap applies; income-producing real estate as investment vehicle; requires independent appraisal of REIT assets annually"}
 ];
-// Expose to module script (must be after SEED is defined)
-window.SEED=SEED;
-window.ADMIN_PW=ADMIN_PW;
-window.TAG_S=TAG_S;
-window.RING_CLR=RING_CLR;
-window.CFG_KEY=CFG_KEY;
-window.SID_KEY=SID_KEY;
-window.OWNER_EMAIL=OWNER_EMAIL;
 </script>
 
 <script type="module">
@@ -872,7 +885,7 @@ import{getFirestore,doc,getDoc,setDoc,updateDoc}from"https://www.gstatic.com/fir
 const $=id=>document.getElementById(id);
 const show=id=>$(id).classList.add('on');
 const hide=id=>$(id).classList.remove('on');
-const getCfg=()=>{try{return JSON.parse(localStorage.getItem((window.CFG_KEY||'rela_cfg_v2'))||'null');}catch{return null;}};
+const getCfg=()=>{try{return JSON.parse(localStorage.getItem(CFG_KEY)||'null');}catch{return null;}};
 
 // ── STATE ──
 let fbAuth,fbDb,curUser;
@@ -882,6 +895,7 @@ let tTab='all',collapsed={},customData={phases:[],rows:[]},allChecks={},allLinks
 // study
   let LAWS=[],TERMS=[],dataReady=false;
 let sharedLinks={};
+  let sharedLinks={};
 let fcFilter='terms',fcDeck=[],fcIdx=0,fcFlipped=false;
 let sfFilter='all';
 let qFilter='all',qDeck=[],qIdx=0,qScore=0,qAnswered=false,qSel=null;
@@ -910,11 +924,11 @@ let examQs=[],examAns=[],examCurQ=0,examN=100,examDone=false,lastExamQs=[];
         const h=new Date().getHours();
         $('t-greet').textContent=`Good ${h<12?'morning':h<18?'afternoon':'evening'}, ${(user.displayName||user.email).split(' ')[0].split('@')[0]}`;
         await loadFSData();
-        const sid=localStorage.getItem((window.SID_KEY||'rela_sid'))||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
+        const sid=localStorage.getItem(SID_KEY)||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
         $('sheet-inp').value=sid;
-        localStorage.setItem((window.SID_KEY||'rela_sid'),sid);
+        localStorage.setItem(SID_KEY,sid);
         // Owner gets Settings tab + auto admin
-        if(user.email===(window.OWNER_EMAIL||'marymarjoriedumlao@gmail.com')){
+        if(user.email===OWNER_EMAIL){
           $('settings-tab').style.display='';
           $('admin-badge').style.display='';
           isAdmin=true;
@@ -936,9 +950,9 @@ window.saveConfig=()=>{
   const keys=['apiKey','authDomain','projectId','storageBucket','messagingSenderId','appId'];
   const cfg={};
   for(const k of keys){const v=$('cfg-'+k).value.trim();if(!v){$('cfg-err').textContent='All 6 fields required.';return;}cfg[k]=v;}
-  localStorage.setItem((window.CFG_KEY||'rela_cfg_v2'),JSON.stringify(cfg));location.reload();
+  localStorage.setItem(CFG_KEY,JSON.stringify(cfg));location.reload();
 };
-window.resetConfig=()=>{if(confirm('Reset Firebase config? You will be signed out.')){localStorage.removeItem((window.CFG_KEY||'rela_cfg_v2'));location.reload();}};
+window.resetConfig=()=>{if(confirm('Reset Firebase config? You will be signed out.')){localStorage.removeItem(CFG_KEY);location.reload();}};
 
 // ── AUTH ──
 window.showForgot=()=>{
@@ -972,7 +986,34 @@ window.showForgot=()=>{
       msgEl.className='msg err';
     }
   };
-  window.toggleAuth=()=>{
+  window.showForgot=()=>{
+  document.getElementById('forgot-panel').style.display='block';
+  document.getElementById('forgot-row').style.display='none';
+  document.getElementById('forgot-email').value=$('inp-email').value||'';
+  document.getElementById('forgot-msg').textContent='';
+  document.getElementById('forgot-email').focus();
+};
+window.hideForgot=()=>{
+  document.getElementById('forgot-panel').style.display='none';
+  document.getElementById('forgot-row').style.display='';
+  document.getElementById('forgot-msg').textContent='';
+};
+window.doForgot=async()=>{
+  const email=document.getElementById('forgot-email').value.trim();
+  const msgEl=document.getElementById('forgot-msg');
+  if(!email){msgEl.textContent='Please enter your email.';msgEl.className='msg err';return;}
+  try{
+    await sendPasswordResetEmail(fbAuth,email);
+    msgEl.textContent='Reset link sent! Check your inbox (and spam folder).';
+    msgEl.className='msg ok';
+    setTimeout(()=>hideForgot(),3000);
+  }catch(e){
+    const m={'auth/user-not-found':'No account found.','auth/invalid-email':'Invalid email.','auth/too-many-requests':'Too many attempts.'};
+    msgEl.textContent=m[e.code]||'Error: '+e.message;
+    msgEl.className='msg err';
+  }
+};
+window.toggleAuth=()=>{
   isSignup=!isSignup;
   $('auth-title').textContent=isSignup?'Create Account':'Sign In';
   $('auth-desc').textContent=isSignup?'Sign up — your progress syncs across all devices.':'Welcome back. Your progress syncs across all your devices.';
@@ -982,6 +1023,8 @@ window.showForgot=()=>{
   $('f-name').style.display=isSignup?'':'none';
   $('f-cpw').style.display=isSignup?'':'none';
   $('auth-err').textContent='';
+  document.getElementById('forgot-row').style.display=isSignup?'none':'';
+  if(isSignup)hideForgot();
   $('auth-err').textContent='';
     document.getElementById('forgot-row').style.display=isSignup?'none':'';
     if(isSignup)hideForgot();
@@ -1011,13 +1054,13 @@ window.doLogout=async()=>{isAdmin=false;$('admin-badge').style.display='none';aw
  async function loadFSData(){
     if(!curUser||!fbDb)return;
     try{
-      const[us,sl]=await Promise.all([
-        getDoc(doc(fbDb,'users',curUser.uid)),
-        getDoc(doc(fbDb,'shared','links'))
-      ]);
+      const us=await getDoc(doc(fbDb,'users',curUser.uid));
       if(us.exists()){const d=us.data();allChecks=d.checks||{};allLinks=d.links||{};customData=d.custom||{phases:[],rows:[]};}
-      if(sl.exists()){sharedLinks=sl.data().links||{};}
-    }catch(e){console.warn('FS load:',e);}
+    }catch(e){console.warn('FS user:',e);}
+    try{
+      const sl=await getDoc(doc(fbDb,'shared','links'));
+      if(sl&&sl.exists()){sharedLinks=sl.data().links||{};}
+    }catch(e){console.warn('FS shared:',e);}
   }
 async function saveFS(field,value){
   if(!curUser||!fbDb)return;
@@ -1051,11 +1094,10 @@ function flashToast(){const t=$('toast');t.classList.add('show');setTimeout(()=>
 function extractId(r){r=(r||'').trim();const m=r.match(/\/d\/([a-zA-Z0-9_-]+)/);if(m)return m[1];if(/^[a-zA-Z0-9_-]{20,}$/.test(r))return r;return null;}
 function splitCSV(line){const r=[];let cur='',inq=false;for(let i=0;i<line.length;i++){if(line[i]==='"')inq=!inq;else if(line[i]===','&&!inq){r.push(cur);cur='';}else cur+=line[i];}r.push(cur);return r.map(s=>s.replace(/^"|"$/g,'').replace(/\r/g,'').trim());}
 function parseRows(csv){
-  // Normalize line endings for Windows CRLF compatibility
-  const normalized=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const norm=csv.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
   const rows=[];let cur='',inq=false;
-  for(let i=0;i<normalized.length;i++){
-    const ch=normalized[i];
+  for(let i=0;i<norm.length;i++){
+    const ch=norm[i];
     if(ch==='"'){inq=!inq;cur+=ch;}
     else if(ch==='\n'&&!inq){rows.push(cur);cur='';}
     else{cur+=ch;}
@@ -1063,34 +1105,28 @@ function parseRows(csv){
   if(cur.trim())rows.push(cur);
   const cleaned=rows.filter(l=>l.trim());
   if(!cleaned.length)return[];
-  const firstRow=(cleaned[0]||'').toLowerCase();
-  const isHeader=firstRow.includes('category')||firstRow.includes('question')||
-    firstRow.includes('term')||firstRow.includes('definition')||
-    firstRow.includes('law')||firstRow.includes('provision')||
-    firstRow.includes('choice')||firstRow.includes('answer');
-  const dataRows=isHeader?cleaned.slice(1):cleaned;
-  return dataRows.map(l=>splitCSV(l)).filter(r=>r.filter(Boolean).length>=2);
+  const first=(cleaned[0]||'').toLowerCase();
+  const isHdr=first.includes('category')||first.includes('question')||first.includes('term')||first.includes('definition')||first.includes('law')||first.includes('provision')||first.includes('choice')||first.includes('answer');
+  return(isHdr?cleaned.slice(1):cleaned).map(l=>splitCSV(l)).filter(r=>r.filter(Boolean).length>=2);
 }
 window.saveAndFetch=async()=>{
   const id=extractId($('sheet-inp').value);
   if(!id){setSt('Invalid Sheet ID.',false);return;}
-  localStorage.setItem((window.SID_KEY||'rela_sid'),id);$('sheet-inp').value=id;
+  localStorage.setItem(SID_KEY,id);$('sheet-inp').value=id;
   await fetchAll(true);
 };
 window.fetchAll=async(verbose)=>{
-  const id=localStorage.getItem((window.SID_KEY||'rela_sid'))||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
+  const id=localStorage.getItem(SID_KEY)||'19FveiCrN96eKV9KwKboW4vXbuY-9YZ4WidlHLyfeAuY';
   if(!id)return;
   if(verbose){$('sync-dot').className='sync-dot loading';$('sync-txt').textContent='Loading…';setSt('Fetching…',null);}
   try{
     const base=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=`;
     const fetchSheet=async(name,gid=null)=>{
-      const encoded=encodeURIComponent(name);
-      const ts=Date.now();
-      const urls=[];
+      const enc=encodeURIComponent(name),ts=Date.now(),urls=[];
       if(gid!==null)urls.push(`https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}&_=${ts}`);
       urls.push(
-        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&tq=select%20*&_=${ts}`,
-        `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encoded}&_=${ts}`,
+        `${base}${enc}&tq=select%20*&_=${ts}`,
+        `${base}${enc}&_=${ts}`
       );
       for(const url of urls){
         try{
@@ -1129,8 +1165,7 @@ function parseExamQ(rows){
     const rawAns=(c[6]||c[7]||'').trim().toUpperCase().replace(/[^ABCD]/g,'');
     const ai={A:0,B:1,C:2,D:3}[rawAns];
     if(ai===undefined||!q.trim())return acc;
-    const exp=(c[7]||c[8]||'').trim();
-    acc.push({cat:cat.trim()||'General',q:q.trim(),choices:[a.trim(),b.trim(),cc.trim(),d.trim()],ans:ai,exp});
+    acc.push({cat:cat.trim()||'General',q:q.trim(),choices:[a.trim(),b.trim(),cc.trim(),d.trim()],ans:ai,exp:(c[7]||c[8]||'').trim()});
     return acc;
   },[]);
 }
@@ -1155,12 +1190,12 @@ window.closeModal=id=>{$(id).classList.remove('open');};
 // ── ADMIN ──
 window.showPinBox=()=>{$('pin-box').style.display='block';$('pin-inp').value='';$('pin-err').textContent='';};
 window.checkPin=()=>{
-  if($('pin-inp').value===(window.ADMIN_PW||'marjie')){isAdmin=true;$('admin-badge').style.display='';$('pin-box').style.display='none';renderTracker();flashToast();}
+  if($('pin-inp').value===ADMIN_PW){isAdmin=true;$('admin-badge').style.display='';$('pin-box').style.display='none';renderTracker();flashToast();}
   else{$('pin-err').textContent='Incorrect password.';}
 };
 window.exitAdmin=()=>{
   // For owner, use the toggle in Settings instead
-  if(curUser&&curUser.email===(window.OWNER_EMAIL||'marymarjoriedumlao@gmail.com')){ updateAdminToggleBtn(); return; }
+  if(curUser&&curUser.email===OWNER_EMAIL){ updateAdminToggleBtn(); return; }
   isAdmin=false;$('admin-badge').style.display='none';renderTracker();
 };
 window.onAddPhaseClick=()=>{if(!isAdmin){showPinBox();return;}$('phase-modal').classList.add('open');$('ap-title').value='';};
@@ -1177,7 +1212,7 @@ window.saveLessonModal=()=>{
 };
 
 // ── TRACKER ──
-const allRows=()=>[...(window.SEED||[]),...customData.rows];
+const allRows=()=>[...SEED,...customData.rows];
 const myChks=()=>allChecks[curUser?.uid]||{};
 function getStats(){
   const done={both:0,rea:0,reb:0,all:0},total={both:0,rea:0,reb:0,all:0};
@@ -1188,7 +1223,7 @@ const pct=(d,t)=>t?Math.round(d/t*100):0;
 function renderProgress(){
   const st=getStats();
   $('rings-row').innerHTML=[{key:'all',label:'Overall'},{key:'both',label:'Both'},{key:'rea',label:'REA Only'},{key:'reb',label:'REB Only'}].map(c=>{
-    const p=pct(st.done[c.key],st.total[c.key]),clr=(window.RING_CLR||{})[c.key]||'#98777b';
+    const p=pct(st.done[c.key],st.total[c.key]),clr=RING_CLR[c.key];
     const circ=2*Math.PI*22,offset=circ-(p/100)*circ;
     return`<div class="ring-card"><div class="ring-wrap"><svg width="50" height="50" style="transform:rotate(-90deg)"><circle cx="25" cy="25" r="22" fill="none" stroke="#f0e8e8" stroke-width="5"/><circle cx="25" cy="25" r="22" fill="none" stroke="${clr}" stroke-width="5" stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round" style="transition:stroke-dashoffset .5s"/></svg><div class="ring-pct" style="color:${clr}">${p}%</div></div><div><div class="ring-name">${c.label}</div><div class="ring-sub">${st.done[c.key]||0}/${st.total[c.key]||0}</div></div></div>`;
   }).join('');
@@ -1226,7 +1261,7 @@ window.renderTracker=()=>{
         <thead><tr><th style="width:30px">✓</th><th style="width:22px">#</th><th style="min-width:140px">Topic / Law</th><th class="col-grp" style="min-width:100px">Subject Group</th><th style="min-width:200px">Key Coverage</th><th style="min-width:130px">Resources</th></tr></thead>
         <tbody>${rows.map((row,ri)=>{
           const done=!!myChks()[row.id];
-          const tagHtml=row.tags.map(t=>{const s=(window.TAG_S||{})[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
+          const tagHtml=row.tags.map(t=>{const s=TAG_S[t]||{};return`<span class="tag" style="background:${s.bg};color:${s.cl};border-color:${s.bd}">${t==='hy'?'High Yield':t==='both'?'Both':t.toUpperCase()}</span>`;}).join('');
           const rowLinks=sharedLinks[row.id]||[];
           const linksHtml=rowLinks.map((lk,idx)=>`<div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;"><a href="${lk.url}" target="_blank" class="res-link" style="flex:1;"><span>📂</span><span>${lk.title}</span></a>${isAdmin?`<button onclick="delLink('${row.id}',${idx})" style="flex-shrink:0;font-size:11px;background:var(--red-bg);color:var(--red);border:1px solid #f5c0c0;border-radius:4px;width:18px;height:18px;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;">×</button>`:''}
           </div>`).join('');
@@ -1521,24 +1556,24 @@ window.migrateLinks=async()=>{
   try{
     btn.disabled=true;btn.textContent='Migrating…';msg.textContent='';
     const userSnap=await getDoc(doc(fbDb,'users',curUser.uid));
-    if(!userSnap.exists()){msg.textContent='No data found.';msg.className='msg err';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
+    if(!userSnap.exists()){msg.textContent='No data.';msg.className='msg err';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
     const userLinks=userSnap.data().links||{};
     const linkCount=Object.values(userLinks).reduce((sum,arr)=>sum+(arr?.length||0),0);
     if(linkCount===0){msg.textContent='No existing links found.';msg.className='msg';btn.disabled=false;btn.textContent='Copy My Links to Shared';return;}
     const sharedRef=doc(fbDb,'shared','links');
     const sharedSnap=await getDoc(sharedRef);
-    const existingShared=sharedSnap.exists()?(sharedSnap.data().links||{}):{};
-    const merged={...existingShared};
+    const existing=sharedSnap.exists()?(sharedSnap.data().links||{}):{};
+    const merged={...existing};
     for(const[rowId,links] of Object.entries(userLinks)){
-      if(!links||!links.length)continue;
-      const existing=merged[rowId]||[];
-      const newLinks=links.filter(nl=>!existing.some(el=>el.url===nl.url));
-      if(newLinks.length)merged[rowId]=[...existing,...newLinks];
+      if(!links?.length)continue;
+      const ex=merged[rowId]||[];
+      const newL=links.filter(nl=>!ex.some(el=>el.url===nl.url));
+      if(newL.length)merged[rowId]=[...ex,...newL];
     }
     if(sharedSnap.exists())await updateDoc(sharedRef,{links:merged});
     else await setDoc(sharedRef,{links:merged});
     sharedLinks=merged;
-    msg.textContent=`✓ Done! ${linkCount} link${linkCount!==1?'s':''} copied. Students can now see them.`;
+    msg.textContent=`✓ Done! ${linkCount} link${linkCount!==1?'s':''} copied.`;
     msg.className='msg ok';
     btn.textContent='Copy My Links to Shared';btn.disabled=false;
     renderTracker();flashToast();
