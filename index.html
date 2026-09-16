@@ -731,14 +731,6 @@ const TAG_S={
   custom:{bg:"#fef0ff",cl:"#6b0080",bd:"#d48ae8"},
 };
 const RING_CLR={all:"#98777b",both:"#5a9a3a",rea:"#6b5fd4",reb:"#2d7cc4"};
-// Expose to module script
-window.SEED=SEED;
-window.ADMIN_PW=ADMIN_PW;
-window.TAG_S=TAG_S;
-window.RING_CLR=RING_CLR;
-window.CFG_KEY=CFG_KEY;
-window.SID_KEY=SID_KEY;
-window.OWNER_EMAIL=OWNER_EMAIL;
 const SEED=[
 
   {id:"A",table:"both",phase:"Phase 0 — Civil Code Foundations",law:"Civil Code — Property & Ownership",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Movable vs. immovable property; modes of acquiring ownership; kinds of property"},
@@ -862,6 +854,14 @@ const SEED=[
 {id:"P23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List restricts foreign participation in certain industries; distinction between owning land directly vs owning shares in land-owning corporation; relevant to corporate land ownership due diligence and appraisal of land under corporate ownership"},
 {id:"P23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 9856 — REIT Act (Foreign Investment Angle)",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Real Estate Investment Trusts allow foreign investors to invest in Philippine real estate through publicly listed shares; 40% foreign ownership cap still applies; income-producing real estate as investment vehicle; requires independent appraisal of REIT assets at least annually; relevant to commercial property valuation and investment analysis"}
 ];
+// Expose to module script (must be after SEED is defined)
+window.SEED=SEED;
+window.ADMIN_PW=ADMIN_PW;
+window.TAG_S=TAG_S;
+window.RING_CLR=RING_CLR;
+window.CFG_KEY=CFG_KEY;
+window.SID_KEY=SID_KEY;
+window.OWNER_EMAIL=OWNER_EMAIL;
 </script>
 
 <script type="module">
