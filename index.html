@@ -752,6 +752,8 @@ const TAG_S={
   custom:{bg:"#fef0ff",cl:"#6b0080",bd:"#d48ae8"},
 };
 const RING_CLR={all:"#98777b",both:"#5a9a3a",rea:"#6b5fd4",reb:"#2d7cc4"};
+</script>
+<script>
 const SEED=[
 
   {id:"A",table:"both",phase:"Phase 0 — Civil Code Foundations",law:"Civil Code — Property & Ownership",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Movable vs. immovable property; modes of acquiring ownership; kinds of property"},
@@ -874,9 +876,24 @@ const SEED=[
 {id:"P23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List; distinction between owning land directly vs owning shares in land-owning corporation; relevant to corporate land ownership due diligence"},
 {id:"P23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 9856 — REIT Act",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Real Estate Investment Trusts allow foreign investors to invest in Philippine real estate through publicly listed shares; 40% foreign ownership cap applies; income-producing real estate as investment vehicle; requires independent appraisal of REIT assets annually"}
 ];
+
+window._SEED=SEED;
 </script>
 
 <script type="module">
+// Constants (also defined here for module scope safety)
+const ADMIN_PW="marjie";
+const CFG_KEY="rela_cfg_v2";
+const SID_KEY="rela_sid";
+const OWNER_EMAIL="marymarjoriedumlao@gmail.com";
+const TAG_S={
+  both:{bg:"#eaf3de",cl:"#27500a",bd:"rgba(90,154,58,.4)"},
+  rea: {bg:"#eeedfe",cl:"#3c3489",bd:"rgba(107,95,212,.4)"},
+  reb: {bg:"#e6f1fb",cl:"#0c447c",bd:"rgba(45,124,196,.4)"},
+  hy:  {bg:"#fcebeb",cl:"#791f1f",bd:"#f5c0c0"},
+  custom:{bg:"#fef0ff",cl:"#6b0080",bd:"#d48ae8"},
+};
+const RING_CLR={all:"#98777b",both:"#5a9a3a",rea:"#6b5fd4",reb:"#2d7cc4"};
 import{initializeApp}from"https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
  import{getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged,updateProfile,sendPasswordResetEmail}from"https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import{getFirestore,doc,getDoc,setDoc,updateDoc}from"https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
@@ -1211,7 +1228,7 @@ window.saveLessonModal=()=>{
 };
 
 // ── TRACKER ──
-const allRows=()=>[...SEED,...customData.rows];
+const allRows=()=>[...(window._SEED||[]),...customData.rows];
 const myChks=()=>allChecks[curUser?.uid]||{};
 function getStats(){
   const done={both:0,rea:0,reb:0,all:0},total={both:0,rea:0,reb:0,all:0};
