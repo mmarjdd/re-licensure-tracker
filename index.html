@@ -740,18 +740,6 @@ Database: Firestore (test mode)
 
 <!-- SEED DATA -->
 <script>
-const ADMIN_PW="marjie";
-const CFG_KEY="rela_cfg_v2";
-const SID_KEY="rela_sid";
-const OWNER_EMAIL="marymarjoriedumlao@gmail.com";
-const TAG_S={
-  both:{bg:"#eaf3de",cl:"#27500a",bd:"rgba(90,154,58,.4)"},
-  rea: {bg:"#eeedfe",cl:"#3c3489",bd:"rgba(107,95,212,.4)"},
-  reb: {bg:"#e6f1fb",cl:"#0c447c",bd:"rgba(45,124,196,.4)"},
-  hy:  {bg:"#fcebeb",cl:"#791f1f",bd:"#f5c0c0"},
-  custom:{bg:"#fef0ff",cl:"#6b0080",bd:"#d48ae8"},
-};
-const RING_CLR={all:"#98777b",both:"#5a9a3a",rea:"#6b5fd4",reb:"#2d7cc4"};
 </script>
 <script>
 const SEED=[
@@ -911,7 +899,6 @@ let tTab='all',collapsed={},customData={phases:[],rows:[]},allChecks={},allLinks
 // study
   let LAWS=[],TERMS=[],dataReady=false;
 let sharedLinks={};
-  let sharedLinks={};
 let fcFilter='terms',fcDeck=[],fcIdx=0,fcFlipped=false;
 let sfFilter='all';
 let qFilter='all',qDeck=[],qIdx=0,qScore=0,qAnswered=false,qSel=null;
