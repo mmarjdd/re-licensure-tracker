@@ -742,8 +742,17 @@ Database: Firestore (test mode)
 <script>
 const SEED=[
 
+const SEED=[
 
-{id:"A",table:"both",phase:"Phase 0 — Civil Code Foundations",law:"Civil Code — Property & Ownership",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Movable vs. immovable property; modes of acquiring ownership; kinds of property"},
+
+{id:"A",
+table:"both",
+phase:"Phase 0 — Civil Code Foundations",
+law:"Civil Code — Property & Ownership",
+tags:["both"],
+group:"REB: General/Fundamentals · REA: Fundamentals",
+guide:"Movable vs. immovable property; modes of acquiring ownership; kinds of property"},
+
 {id:"B",table:"reb",phase:"Phase 0 — Civil Code Foundations",law:"Civil Code — Contracts & Sales",tags:["reb","hy"],group:"Special & Technical Knowledge",guide:"Essential elements; stages: negotiation, perfection, consummation; contract of sale vs. contract to sell; double sale rule Art. 1544"},
 {id:"C",table:"both",phase:"Phase 0 — Civil Code Foundations",law:"Civil Code — Persons",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Legal capacity of persons; Marriage, legal separation, annulment; Property relations between spouses (conjugal / absolute community / separation of property); Parent-child relations, filiation, support, parental authority; Effects of family relations on ownership and property rights"},
 {id:"D",table:"both",phase:"Phase 0 — Civil Code Foundations",law:"RA 11642 — Domestic Administrative Adoption and Alternative Child Care Act",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Legal adoption process and requirements; Effects of adoption on civil status and inheritance rights; Parental authority over adopted children; Child care and welfare principles affecting legal dependency; Rights and obligations created by adoption"},
@@ -821,9 +830,9 @@ const SEED=[
 {id:"10.3",table:"both",phase:"Phase 10 — Fundamentals of Real Estate Principles",law:"Real Property Concepts & Classifications",tags:["both"],group:"REB: General/Fundamentals · REA: Fundamentals",guide:"Real vs personal property; fixtures MARIA test; air rights; subsurface rights; riparian rights; bundle of rights: use enjoy exclude dispose possess; freehold vs leasehold estates; appurtenance"},
 
 {id:"11.1",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law",tags:["reb","hy"],group:"Special & Technical Knowledge",guide:"Grace periods: 2+ years paid = grace period + CSV refund; less than 2 years = grace period only; 60-day notarial notice"},
-{id:"B11.2",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Contract of Sale vs Contract to Sell",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Essential elements; stages: negotiation, perfection, consummation; contract of sale vs contract to sell; double sale Art. 1544; option contracts; pacto de retro max 10 years; rescission and annulment of sale"},
-{id:"B11.3",table:"both",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Lease & Real Mortgage Provisions",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Rights and obligations of lessor and lessee; sublease; real mortgage requirements and registration; extrajudicial foreclosure Act 3135; right of redemption 1 year from registration; chattel vs real estate mortgage"},
-{id:"B11.4",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law (Realty Installment Buyer Protection Act)",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Paid 2+ years: grace period 1 month per year paid plus CSV refund 50% plus 5% per year beyond 5 years max 90%; paid less than 2 years: grace period only; 60-day notarial cancellation notice"},
+{id:"11.2",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Contract of Sale vs Contract to Sell",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Essential elements; stages: negotiation, perfection, consummation; contract of sale vs contract to sell; double sale Art. 1544; option contracts; pacto de retro max 10 years; rescission and annulment of sale"},
+{id:"11.3",table:"both",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"Civil Code — Lease & Real Mortgage Provisions",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Rights and obligations of lessor and lessee; sublease; real mortgage requirements and registration; extrajudicial foreclosure Act 3135; right of redemption 1 year from registration; chattel vs real estate mortgage"},
+{id:"11.4",table:"reb",phase:"Phase 11 — Legal Aspect of Sale, Mortgage & Lease",law:"RA 6552 — Maceda Law (Realty Installment Buyer Protection Act)",tags:["reb","hy"],group:"REB: Special & Technical Knowledge",guide:"Paid 2+ years: grace period 1 month per year paid plus CSV refund 50% plus 5% per year beyond 5 years max 90%; paid less than 2 years: grace period only; 60-day notarial cancellation notice"},
 
 {id:"12.1",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"PVS 3rd Ed. 2025",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"PVS framework; bases of value; scope of work; appraiser independence; contingent fee prohibition; certification statement"},
 {id:"12.2",table:"rea",phase:"Phase 12 — Standards & Ethics — REA",law:"International Valuation Standards (IVS)",tags:["rea","hy"],group:"Fundamentals — Standards & Ethics",guide:"IVS general standards; how IVS is adopted in PVS 3rd Edition; IVS definitions of market value"},
@@ -850,7 +859,13 @@ const SEED=[
 
 {id:"19.1",table:"both",phase:"Phase 19 — Building, Sanitation & Survey Practice Regulation",law:"PD 1096 — National Building Code of the Philippines",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Design, construction, use, and occupancy of buildings; setback and height requirements; floor area ratio (FAR); occupancy classifications; Building Permit requirement; relevant to appraisal of improvements and HBU analysis"},
 {id:"19.2",table:"both",phase:"Phase 19 — Building, Sanitation & Survey Practice Regulation",law:"PD 856 — Sanitation Code of the Philippines",tags:["both"],group:"REB: Special & Technical · REA: Land Mgmt",guide:"Sanitary standards for buildings/establishments; sanitary permits; water supply, drainage, and waste disposal; relevant to subdivision development standards and building appraisal"},
-{id:"19.3",table:"both",phase:"Phase 19 — Building, Sanitation & Survey Practice Regulation",law:"RA 10166 — Geology Profession Act of 2012",table:"both",group:"REB: Special & Technical · REA: Land Mgmt",guide:"Regulates the practice of geology in the Philippines; covers registration and licensure, scope of geological practice, professional standards, Board of Geology, CPE, geological reports, geohazard and hydrogeological studies, and other geological services relevant to land development, environmental assessment, site investigation, and real estate projects"},
+{id:"19.3",
+table:"both",
+phase:"Phase 19 — Building, Sanitation & Survey Practice Regulation",
+law:"RA 10166 — Geology Profession Act of 2012",
+tags:["rea","reb","hy"]
+group:"REB: Special & Technical · REA: Land Mgmt",
+guide:"Regulates the practice of geology in the Philippines; covers registration and licensure, scope of geological practice, professional standards, Board of Geology, CPE, geological reports, geohazard and hydrogeological studies, and other geological services relevant to land development, environmental assessment, site investigation, and real estate projects"},
 
 {id:"20.1",table:"rea",phase:"Phase 20 — Human and Physical Geography",law:"Human and Physical Geography",tags:["rea","hy"],group:"Fundamentals of Real Estate Appraisal",guide:"Physical geography (landforms, climate, soil, drainage) and human geography (population distribution, urbanization, settlement patterns, migration) as they affect land use, site analysis, and value"},
 
@@ -862,9 +877,9 @@ const SEED=[
 {id:"22.4",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Appraisal of Machinery and Equipment",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Approaches for valuing machinery and equipment distinct from real property"},
 {id:"22.5",table:"rea",phase:"Phase 22 — GIS, Math, Report Writing, Machinery, Current Events",law:"Current Events",tags:["rea"],group:"REA: Professional Appraisal Practice",guide:"Real estate market conditions, recent legislation, and industry developments"},
 
-{id:"P23.1",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"Foreign Ownership Rules — Land & Real Property",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"Only Filipino citizens and corporations with 60% Filipino equity may own land; former natural-born citizens: up to 5,000 sqm urban or 3 hectares rural; foreigners may lease land up to 50 years renewable 25 years; condo units up to 40% foreign ownership per project under RA 4726"},
-{id:"P23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List; distinction between owning land directly vs owning shares in land-owning corporation; relevant to corporate land ownership due diligence"},
-{id:"P23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 9856 — REIT Act",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Real Estate Investment Trusts allow foreign investors to invest in Philippine real estate through publicly listed shares; 40% foreign ownership cap applies; income-producing real estate as investment vehicle; requires independent appraisal of REIT assets annually"}
+{id:"23.1",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"Foreign Ownership Rules — Land & Real Property",tags:["both","hy"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"Only Filipino citizens and corporations with 60% Filipino equity may own land; former natural-born citizens: up to 5,000 sqm urban or 3 hectares rural; foreigners may lease land up to 50 years renewable 25 years; condo units up to 40% foreign ownership per project under RA 4726"},
+{id:"23.2",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 7042 + RA 8179 — Foreign Investments Act (RE Context)",tags:["both"],group:"REB: General/Fundamentals · REA: Land Mgmt & Real Property Laws",guide:"60-40 Filipino-foreign equity rule in land-owning corporations; Foreign Investment Negative List; distinction between owning land directly vs owning shares in land-owning corporation; relevant to corporate land ownership due diligence"},
+{id:"23.3",table:"both",phase:"Phase 23 — Foreign Ownership & Investment",law:"RA 9856 — REIT Act",tags:["both"],group:"REB: Special & Technical · REA: Fundamentals",guide:"Real Estate Investment Trusts allow foreign investors to invest in Philippine real estate through publicly listed shares; 40% foreign ownership cap applies; income-producing real estate as investment vehicle; requires independent appraisal of REIT assets annually"}
  
 ];
 
